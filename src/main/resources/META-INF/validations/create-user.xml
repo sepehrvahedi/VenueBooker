@@ -1,0 +1,8 @@
+<constraint-mappings xmlns="http://jboss.org/xml/ns/javax/validation/mapping" version="1.1">
+    <bean class="army.booker.grpc.provides.http.v1.user.UserServiceProto$CreateUserRequest">
+        <class>
+            <constraint
+                    annotation="army.booker.application.grpc.http.v1.user.validations.constraints.CreateUserConstraint"/>
+        </class>
+    </bean>
+</constraint-mappings>

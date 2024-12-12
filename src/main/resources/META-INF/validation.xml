@@ -12,6 +12,7 @@
         </default-validated-executable-types>
     </executable-validation>
     <constraint-mapping>META-INF/validations/create-user.xml</constraint-mapping>
+    <constraint-mapping>META-INF/validations/login-user.xml</constraint-mapping>
 
     <property name="com.acme.validation.logging">WARN</property>
     <property name="com.acme.validation.safetyChecking">failOnError</property>

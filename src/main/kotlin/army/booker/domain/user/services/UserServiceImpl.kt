@@ -1,5 +1,6 @@
 package army.booker.domain.user.services
 
+import army.booker.domain.user.Role
 import army.booker.domain.user.User
 import army.booker.domain.user.repositories.UserRepository
 import org.slf4j.Logger
@@ -13,25 +14,35 @@ class UserServiceImpl(
   private val logger: Logger,
   private val passwordEncoder: BCryptPasswordEncoder = BCryptPasswordEncoder(),
 ) : UserService {
-  override fun createUser(userName: String, password: String): Mono<User> =
-    userRepository.findByUserName(userName)
+  override fun createUser(username: String, password: String, role: Role): Mono<User> =
+    userRepository.findByUsernameAndRole(username, role)
       .flatMap<User> {
-        logger.error("User with username $userName already exists")
+        logger.error("User with username $username already exists")
         Mono.error(IllegalArgumentException("Username already exists"))
       }
       .switchIfEmpty(
         Mono.defer {
           val hashedPassword = passwordEncoder.encode(password)
           val newUser = User(
-            userName = userName,
+            username = username,
+            role = role,
             hashedPassword = hashedPassword
           )
 
           userRepository.save(newUser)
-            .doOnSuccess { logger.info("Created new user with username: $userName") }
+            .doOnSuccess { logger.info("Created new user with username: $username") }
             .doOnError { error ->
-              logger.error("Failed to create user with username: $userName", error)
+              logger.error("Failed to create user with username: $username", error)
             }
         }
+      )
+
+  override fun authenticateUser(username: String, password: String, role: Role): Mono<User> =
+    userRepository.findByUsernameAndRole(username, role)
+      .filter { user -> passwordEncoder.matches(password, user.hashedPassword) }
+      .switchIfEmpty(
+        Mono.error(
+          IllegalArgumentException("Invalid credentials")
+        )
       )
 }

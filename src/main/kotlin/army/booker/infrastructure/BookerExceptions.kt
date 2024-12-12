@@ -15,4 +15,6 @@ enum class ErrorCodeString(val codeString: String = "UNKNOWN_ERROR") {
   UnknownError,
   FieldPreConditionFailed("BOOKER_%s_FIELD_PRE_CONDITION_FAILED"),
   UserNotFound("BOOKER_USER_NOT_FOUND"),
+  CorruptedToken("BOOKER_CORRUPTED_TOKEN"),
+  TokenExpired("BOOKER_TOKEN_EXPIRED"),
 }

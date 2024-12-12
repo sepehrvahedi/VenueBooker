@@ -63,6 +63,7 @@ dependencies {
   api("org.springframework.security:spring-security-crypto")
   api("ch.qos.logback:logback-classic:1.4.11")
   api("ch.qos.logback:logback-core:1.4.11")
+  api("org.springframework.security:spring-security-core")
 
   api("io.micrometer:context-propagation:1.1.1")
   api("io.jsonwebtoken:jjwt-api:0.12.5")

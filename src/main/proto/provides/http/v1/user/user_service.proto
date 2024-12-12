@@ -9,9 +9,8 @@ import "provides/http/libs/visibility.proto";
 
 package booker.http.v1.user;
 
-
 service UserService {
-  rpc CreateUser(CreateUserRequest) returns (Empty) {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
     option(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
       description: "Creates a user with valid username and password"
     };
@@ -20,11 +19,40 @@ service UserService {
       body: "*"
     };
   }
+
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      description: "Authenticates a user and returns a JWT token"
+    };
+    option(google.api.http) = {
+      post: "/api/v1/user/login"
+      body: "*"
+    };
+  }
+}
+
+enum UserRole {
+  NONE_USER_ROLE = 0 [(google.api.value_visibility).restriction = "INTERNAL"];
+  SUPPLIER = 1;
+  CUSTOMER = 2;
 }
 
 message CreateUserRequest {
   string username = 1;
   string password = 2;
+  UserRole role = 3;
 }
 
-message Empty {}
+message CreateUserResponse {
+  string jwt_token = 1;
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+  UserRole role = 3;
+}
+
+message LoginResponse {
+  string jwt_token = 1;
+}

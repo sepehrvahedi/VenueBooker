@@ -12,8 +12,8 @@ sealed class UserException(message: String) : BookerException(message) {
     override fun asStatus(): Status = Status.NOT_FOUND
 
     companion object {
-      fun create(userName: String): UserNotFoundException =
-        UserNotFoundException("Cannot find user with username: $userName")
+      fun create(username: String): UserNotFoundException =
+        UserNotFoundException("Cannot find user with username: $username")
     }
   }
 }

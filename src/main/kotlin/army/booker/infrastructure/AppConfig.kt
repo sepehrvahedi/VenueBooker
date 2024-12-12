@@ -44,7 +44,7 @@ data class AppConfig(
       val jwt: Jwt = Jwt(),
     ) {
       data class Jwt(
-        val secretKey: String = "DAWSH_INJA_RO_NAKHOON_MAGE_ALLAFI",
+        val secretKey: String = "gfGlnCD+FDa8kvkVw9OHaRj+W/IXZCrZsu2FCJINRkPvgEI8nPTq70gY74d5QYAnRqdDsdMb/wY00/Uc/A540w==",
       )
     }
   }

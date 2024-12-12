@@ -1,6 +1,7 @@
 package army.booker.domain.user.services
 
 import army.booker.FixtureTestHelper
+import army.booker.domain.user.Role
 import army.booker.domain.user.User
 import army.booker.domain.user.repositories.UserRepository
 import org.junit.jupiter.api.BeforeEach
@@ -40,14 +41,15 @@ class UserServiceTest {
     val username = "testUser"
     val password = "testPass123!"
     val hashedPassword = "hashedPassword"
-    val expectedUser = User(userName = username, hashedPassword = hashedPassword)
+    val role = Role.Supplier
+    val expectedUser = User(username = username, hashedPassword = hashedPassword, role = role)
 
-    whenever(userRepository.findByUserName(username)).thenReturn(Mono.empty())
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.empty())
     whenever(passwordEncoder.encode(password)).thenReturn(hashedPassword)
     whenever(userRepository.save(any())).thenReturn(Mono.just(expectedUser))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password))
+    StepVerifier.create(userService.createUser(username, password, role))
       .expectNext(expectedUser)
       .verifyComplete()
   }
@@ -57,12 +59,13 @@ class UserServiceTest {
     // Arrange
     val username = "existingUser"
     val password = "testPass123!"
+    val role = Role.Supplier
     val existingUser = fixture<User>()
 
-    whenever(userRepository.findByUserName(username)).thenReturn(Mono.just(existingUser))
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password))
+    StepVerifier.create(userService.createUser(username, password, role))
       .expectError(IllegalArgumentException::class.java)
       .verify()
   }
@@ -73,13 +76,81 @@ class UserServiceTest {
     val username = "testUser"
     val password = "testPass123!"
     val hashedPassword = "hashedPassword"
+    val role = Role.Supplier
 
-    whenever(userRepository.findByUserName(username)).thenReturn(Mono.empty())
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.empty())
     whenever(passwordEncoder.encode(password)).thenReturn(hashedPassword)
     whenever(userRepository.save(any())).thenReturn(Mono.error(RuntimeException("Database error")))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password))
+    StepVerifier.create(userService.createUser(username, password, role))
+      .expectError(RuntimeException::class.java)
+      .verify()
+  }
+
+  @Test
+  fun `authenticateUser should return user when credentials are valid`() {
+    // Arrange
+    val username = "testUser"
+    val password = "testPass123!"
+    val hashedPassword = "hashedPassword"
+    val role = Role.Supplier
+    val existingUser = User(username = username, hashedPassword = hashedPassword, role = role)
+
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
+    whenever(passwordEncoder.matches(password, hashedPassword)).thenReturn(true)
+
+    // Act & Assert
+    StepVerifier.create(userService.authenticateUser(username, password, role))
+      .expectNext(existingUser)
+      .verifyComplete()
+  }
+
+  @Test
+  fun `authenticateUser should throw exception when user not found`() {
+    // Arrange
+    val username = "nonexistentUser"
+    val password = "testPass123!"
+    val role = Role.Supplier
+
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.empty())
+
+    // Act & Assert
+    StepVerifier.create(userService.authenticateUser(username, password, role))
+      .expectError(IllegalArgumentException::class.java)
+      .verify()
+  }
+
+  @Test
+  fun `authenticateUser should throw exception when password is incorrect`() {
+    // Arrange
+    val username = "testUser"
+    val password = "wrongPassword"
+    val hashedPassword = "hashedPassword"
+    val role = Role.Supplier
+    val existingUser = User(username = username, hashedPassword = hashedPassword, role = role)
+
+    whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
+    whenever(passwordEncoder.matches(password, hashedPassword)).thenReturn(false)
+
+    // Act & Assert
+    StepVerifier.create(userService.authenticateUser(username, password, role))
+      .expectError(IllegalArgumentException::class.java)
+      .verify()
+  }
+
+  @Test
+  fun `authenticateUser should handle repository error`() {
+    // Arrange
+    val username = "testUser"
+    val password = "testPass123!"
+    val role = Role.Supplier
+
+    whenever(userRepository.findByUsernameAndRole(username, role))
+      .thenReturn(Mono.error(RuntimeException("Database error")))
+
+    // Act & Assert
+    StepVerifier.create(userService.authenticateUser(username, password, role))
       .expectError(RuntimeException::class.java)
       .verify()
   }

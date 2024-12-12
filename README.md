@@ -25,25 +25,16 @@ VenueBooker is a modern web application that simplifies the process of booking a
 
 ### Backend
 - Kotlin + Spring Boot
-- PostgreSQL
+- MongoDB
 - Redis (caching)
 - Kafka (event streaming)
 - Docker & Kubernetes
 
-### Frontend
-- TypeScript + React
-- Material-UI
-- Redux for state management
-- React Query for data fetching
-
 ### Infrastructure
-- Microservices architecture
-- Event-driven design
 - Domain-driven design
 - GitLab CI/CD
 - Prometheus & Grafana monitoring
 
-## Getting Started 🚀
 
 ### Prerequisites
 - JDK 17+

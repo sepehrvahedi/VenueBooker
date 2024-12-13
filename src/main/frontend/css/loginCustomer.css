@@ -1,4 +1,3 @@
-/* General Reset */
 body, html {
     margin: 0;
     padding: 0;
@@ -81,9 +80,23 @@ button.login-button:hover {
     background: linear-gradient(to right, #ff5e5e, #ff1f1f);
 }
 
+.register-prompt {
+    font-size: 14px;
+    line-height: 1.5; /* Adjust this value for more or less space between lines */
+    text-align: center;
+}
+
+.register-link {
+    color: #007BFF; /* Change to your desired link color */
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
 /* Social Buttons */
 .login-with {
-    margin-top: 20px;
     color: #777;
     font-size: 16px;
 }

@@ -19,7 +19,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         const data = await response.json();
         alert("Login successful! Redirecting...");
-        localStorage.setItem("token", data.token);
+        localStorage.setItem("customerTokenLogin", data.token);
         window.location.href = "/dashboard"; // Replace with your dashboard URL
     } catch (error) {
         alert(error.message);

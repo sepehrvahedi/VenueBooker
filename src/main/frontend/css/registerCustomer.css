@@ -135,3 +135,19 @@ button.register-button:hover {
     object-fit: contain; /* Ensure no distortion */
     pointer-events: none; /* Prevent interaction */
 }
+
+.error-message {
+    color: #ff3e3e;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+    min-height: 17px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input.error {
+    border-color: #ff3e3e;
+}

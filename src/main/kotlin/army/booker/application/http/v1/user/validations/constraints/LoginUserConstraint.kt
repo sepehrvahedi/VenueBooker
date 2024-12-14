@@ -1,10 +1,10 @@
-package army.booker.application.grpc.http.v1.user.validations.constraints
+package army.booker.application.http.v1.user.validations.constraints
 
-import army.booker.application.grpc.http.v1.user.validations.validators.LoginUserValidator
+import army.booker.application.http.v1.user.validations.validators.LoginUserValidator
 import jakarta.validation.Constraint
 import kotlin.reflect.KClass
 
-@Target(AnnotationTarget.TYPE)
+@Target(AnnotationTarget.TYPE, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @Constraint(validatedBy = [LoginUserValidator::class])
 @MustBeDocumented

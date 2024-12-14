@@ -149,3 +149,32 @@ button.login-button:hover {
     object-fit: contain; /* Ensure no distortion */
     pointer-events: none; /* Prevent interaction */
 }
+
+.error-message {
+    color: #ff3e3e;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    display: block;
+    min-height: 17px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input.error {
+    border-color: #ff3e3e;
+}
+
+.success-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+}

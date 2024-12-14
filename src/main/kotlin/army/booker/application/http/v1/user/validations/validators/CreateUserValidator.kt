@@ -1,14 +1,14 @@
-package army.booker.application.grpc.http.v1.user.validations.validators
+package army.booker.application.http.v1.user.validations.validators
 
-import army.booker.application.grpc.http.v1.user.validations.constraints.LoginUserConstraint
-import army.booker.grpc.provides.http.v1.user.UserServiceProto
+import army.booker.application.http.v1.user.validations.constraints.CreateUserConstraint
+import army.booker.application.http.v1.user.CreateUserRequest
 import jakarta.validation.ConstraintValidator
 import jakarta.validation.ConstraintValidatorContext
 
-class LoginUserValidator :
-  ConstraintValidator<LoginUserConstraint, UserServiceProto.LoginRequest> {
+class CreateUserValidator :
+  ConstraintValidator<CreateUserConstraint, CreateUserRequest> {
   override fun isValid(
-    value: UserServiceProto.LoginRequest,
+    value: CreateUserRequest,
     context: ConstraintValidatorContext,
   ): Boolean {
     var isValid = true
@@ -66,23 +66,28 @@ class LoginUserValidator :
           .addConstraintViolation()
         isValid = false
       }
+
+      !value.password.matches(Regex("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@\$!%*?&])[A-Za-z\\d@\$!%*?&]+$")) -> {
+        context.buildConstraintViolationWithTemplate("Password must contain at least one uppercase letter, one lowercase letter, one number and one special character")
+          .addPropertyNode("password")
+          .addConstraintViolation()
+        isValid = false
+      }
     }
 
     // Role validation
     when (value.role) {
-      UserServiceProto.UserRole.NONE_USER_ROLE,
-      UserServiceProto.UserRole.UNRECOGNIZED,
+      "SUPPLIER",
+      "CUSTOMER",
       -> {
+        // Valid roles, do nothing
+      }
+
+      else -> {
         context.buildConstraintViolationWithTemplate("Role must be either SUPPLIER or CUSTOMER")
           .addPropertyNode("role")
           .addConstraintViolation()
         isValid = false
-      }
-
-      UserServiceProto.UserRole.SUPPLIER,
-      UserServiceProto.UserRole.CUSTOMER,
-      -> {
-        // Valid roles, do nothing
       }
     }
 

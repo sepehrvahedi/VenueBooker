@@ -1,9 +1,0 @@
-services:
-  envoy:
-    image: envoyproxy/envoy:v1.31-latest
-    ports:
-      - "51051:51051"
-    command: -c /etc/envoy.yaml -l debug
-    volumes:
-      - ./config-macos.yaml:/etc/envoy.yaml
-      - ./generated-bin.pb:/protos/generated-bin.pb

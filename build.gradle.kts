@@ -64,6 +64,7 @@ dependencies {
   api("ch.qos.logback:logback-classic:1.4.11")
   api("ch.qos.logback:logback-core:1.4.11")
   api("org.springframework.security:spring-security-core")
+  api("org.springframework.boot:spring-boot-starter-security")
 
   api("io.micrometer:context-propagation:1.1.1")
   api("io.jsonwebtoken:jjwt-api:0.12.5")
@@ -79,6 +80,7 @@ dependencies {
 
   runtimeOnly("io.micrometer:micrometer-registry-prometheus")
   runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.5")
+  runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
   kapt("org.springframework.boot:spring-boot-configuration-processor")
 

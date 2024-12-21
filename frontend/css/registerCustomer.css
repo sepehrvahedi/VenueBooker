@@ -75,6 +75,7 @@ button.register-button {
     font-size: 16px;
     cursor: pointer;
     margin: 5px auto;
+    margin-top: 10px;
     display: block;
 }
 

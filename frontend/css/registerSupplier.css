@@ -14,7 +14,7 @@ body, html {
 }
 
 /* Left Section: Registration Form */
-.register-form {
+.-form {
     flex: 1;
     background: #ffffff;
     display: flex;
@@ -75,6 +75,7 @@ button.register-button {
     font-size: 16px;
     cursor: pointer;
     margin: 5px auto;
+    margin-top: 10px;
     display: block;
 }
 

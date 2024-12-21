@@ -4,17 +4,38 @@ document.getElementById("register-form").addEventListener("submit", async functi
     // Clear previous error messages
     clearErrors();
 
+    const name = document.getElementById("name").value;
+    const surname = document.getElementById("surname").value;
     const username = document.getElementById("username").value;
+    const phone = document.getElementById("phone").value;
+    const nationalNumber = document.getElementById("national-number").value;
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
 
+    if (!/^(09\d{9})$/.test(phone)) {
+        showError("phone-error", "Phone number must start with 09 and be 11 digits long.");
+        event.target.value = ''; // Remove non-digit characters
+        return;
+    }
+    // Validate national number
+    if (!/^\d{10}$/.test(nationalNumber)) {
+        showError("national-number-error", "National number must be 10 digits long and contain only numbers.");
+        return;
+    }
+
+    // Validate password confirmation
     if (password !== confirmPassword) {
         showError("confirm-password-error", "Passwords do not match");
         return;
     }
 
+    // Prepare data for registration
     const data = {
+        name: name,
+        surname: surname,
         username: username,
+        phone: phone,
+        nationalNumber: nationalNumber,
         password: password,
         role: "CUSTOMER"
     };
@@ -64,6 +85,48 @@ document.getElementById("register-form").addEventListener("submit", async functi
     }
 });
 
+// Event listeners for phone and national number inputs
+document.getElementById("phone").addEventListener("input", function (event) {
+    const value = event.target.value;
+    // Validate phone number
+  
+    if (!/^\d*$/.test(value)) {
+        showError("phone-error", "Only digits are allowed.");
+    } else if (!value.startsWith("09")) {
+        showError("phone-error", "Phone number must start with 09.");
+    } else if(value.length < 11){
+        showError('phone-error', 'Phone number must be 11 digits long.')
+    } else if (value.length > 11) {
+        event.target.value = value.slice(0, 11); // Limit to 11 digits
+    } else {
+        clearErrors();
+    }
+});
+
+document.getElementById("national-number").addEventListener("input", function (event) {
+    const value = event.target.value;
+    if (!/^\d*$/.test(value)) {
+        showError("national-number-error", "Only digits are allowed.");
+        event.target.value = value.replace(/\D/g, ''); // Remove non-digit characters
+    } else if (value.length < 10) {
+        showError("national-number-error", "National number must be 10 digits long.");
+    } else if (value.length > 10) {
+        event.target.value = value.slice(0, 10); // Limit to 10 digits
+    } else {
+        clearErrors();
+    }
+});
+
+document.getElementById("confirm-password").addEventListener("input", function () {
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+    if (confirmPassword !== password) {
+        showError("confirm-password-error", "Passwords do not match");
+    } else {
+        clearErrors();
+    }
+});
+
 function clearErrors() {
     const errorElements = document.getElementsByClassName("error-message");
     Array.from(errorElements).forEach(element => {
@@ -89,21 +152,16 @@ function showSuccess(message) {
     successDiv.className = 'success-message';
     successDiv.style.cssText = `
         position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        // top: 20px;
+        // right: 20px;
         background-color: #4CAF50;
         color: white;
-        padding: 15px 30px;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        // padding: 15px;
+        // z-index: 1000;
     `;
     successDiv.textContent = message;
-
     document.body.appendChild(successDiv);
-
-    // Remove the success message after the redirect
     setTimeout(() => {
-        successDiv.remove();
-    }, 2000);
+        document.body.removeChild(successDiv);
+    }, 3000);
 }

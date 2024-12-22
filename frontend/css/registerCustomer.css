@@ -143,6 +143,7 @@ button.register-button:hover {
     color: #ff3e3e;
     font-size: 0.85rem;
     margin-top: 5px;
+    margin-bottom: 2px;
     display: block;
     /* min-height: 10px; */
 }

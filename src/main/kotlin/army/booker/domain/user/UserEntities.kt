@@ -13,6 +13,10 @@ data class User(
   @Indexed val username: String,
   val hashedPassword: String,
   val role: Role,
+  val name: String,
+  val surname: String,
+  val phone: String,
+  val nationalNumber: String,
   @CreatedDate val createdAt: Instant? = null,
   @LastModifiedDate val updatedAt: Instant? = null,
 )

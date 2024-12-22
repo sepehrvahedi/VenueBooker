@@ -1,10 +1,10 @@
 package army.booker.application.http.v1.user.controllers
 
-import army.booker.application.http.v1.user.mappers.HttpV1UserMapper
 import army.booker.application.http.v1.user.CreateUserRequest
 import army.booker.application.http.v1.user.CreateUserResponse
 import army.booker.application.http.v1.user.LoginRequest
 import army.booker.application.http.v1.user.LoginResponse
+import army.booker.application.http.v1.user.mappers.HttpV1UserMapper
 import army.booker.domain.user.User
 import army.booker.domain.user.UserTokenPayload
 import army.booker.domain.user.services.UserService
@@ -43,6 +43,10 @@ class UserController(
     userService.createUser(
       username = request.username,
       password = request.password,
+      name = request.name,
+      surname = request.surname,
+      phone = request.phone,
+      nationalNumber = request.nationalNumber,
       role = HttpV1UserMapper.UserRoleMapper.fromString(request.role)
     ).map { user ->
       val jwtToken = createJwtToken(user)
@@ -97,6 +101,8 @@ class UserController(
         id = user.id!!,
         username = user.username,
         role = user.role,
+        name = user.name,
+        surname = user.surname
       )
     )
 }

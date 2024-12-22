@@ -14,7 +14,7 @@ body, html {
 }
 
 /* Left Section: Registration Form */
-.-form {
+.register-form {
     flex: 1;
     background: #ffffff;
     display: flex;
@@ -139,11 +139,11 @@ button.register-button:hover {
     pointer-events: none; /* Prevent interaction */
 }
 
-
 .error-message {
     color: #ff3e3e;
     font-size: 0.85rem;
     margin-top: 5px;
+    margin-bottom: 2px;
     display: block;
     /* min-height: 10px; */
 }

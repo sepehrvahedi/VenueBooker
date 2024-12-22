@@ -12,6 +12,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("confirm-password").value;
 
+    // Client-side validation
     if (!/^(09\d{9})$/.test(phone)) {
         showError("phone-error", "Phone number must start with 09 and be 11 digits long.");
         event.target.value = ''; // Remove non-digit characters
@@ -37,7 +38,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
         phone: phone,
         nationalNumber: nationalNumber,
         password: password,
-        role: "CUSTOMER"
+        role: "SUPPLIER"
     };
 
     try {
@@ -65,33 +66,70 @@ document.getElementById("register-form").addEventListener("submit", async functi
                 setTimeout(() => {
                     window.location.href = '../login/loginSupplier.html';
                 }, 2000);
+            } else {
+                // Handle validation errors returned from the server
+                handleValidationErrors(result);
             }
         } else {
-            // Handle validation errors
-            if (typeof result === 'object') {
-                Object.entries(result).forEach(([field, messages]) => {
-                    if (Array.isArray(messages)) {
-                        showError(`${field}-error`, messages[0]);
-                        document.getElementById(field).classList.add('error');
-                    }
-                });
-            } else {
-                showError("username-error", "An error occurred during registration");
-            }
+            // Handle unexpected server errors
+            handleUnexpectedError(result);
         }
     } catch (error) {
         console.error('Registration error:', error);
-        showError("username-error", "An error occurred. Please check if the server is running.");
+        // Redirect to error page for unexpected exceptions
+        alert("An unexpected error occurred: " + error.message);
+        document.getElementById("register-form").reset();
+        clearErrors();
     }
 });
+
+// Function to handle validation errors
+function handleValidationErrors(result) {
+    const errorMessages = [];
+
+    if (typeof result === 'object') {
+        // Check for an error field
+        if (result.error) {
+            errorMessages.push(result.error);
+            redirectToErrorPage(errorMessages);
+            return;
+        }
+
+        Object.entries(result).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+                showError(`${field}-error`, messages[0]);
+                document.getElementById(field).classList.add('error');
+            }
+        });
+    } else {
+        showError("register-error", "An error occurred during registration");
+    }
+}
+
+// Function to handle unexpected errors
+function handleUnexpectedError(result) {
+    const errorMessages = [];
+    if (typeof result === 'object') {
+        Object.entries(result).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+                errorMessages.push(messages[0]);
+            }
+        });
+    } else {
+        errorMessages.push("An unexpected error occurred during registration.");
+    }
+    
+    alert(errorMessages.join('\n'))
+}
+
 
 // Event listeners for phone and national number inputs
 document.getElementById("phone").addEventListener("input", function (event) {
     const value = event.target.value;
     // Validate phone number
-  
     if (!/^\d*$/.test(value)) {
         showError("phone-error", "Only digits are allowed.");
+        event.target.value = value.replace(/\D/g, ''); // Remove non-digit characters
     } else if (!value.startsWith("09")) {
         showError("phone-error", "Phone number must start with 09.");
     } else if(value.length < 11){

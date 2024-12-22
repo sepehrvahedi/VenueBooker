@@ -77,7 +77,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
     } catch (error) {
         console.error('Registration error:', error);
         // Redirect to error page for unexpected exceptions
-        alert("An unexpected error occurred. Please try " + error.message);
+        alert("An unexpected error occurred: " + error.message);
         document.getElementById("register-form").reset();
         clearErrors();
     }

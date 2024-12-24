@@ -1,0 +1,15 @@
+figma pages for sprint 1:
+
+supplier:
+
+https://www.figma.com/design/vtnYP4rXmZ51mX3r6oSGDD/Supplier?node-id=0-1&t=OGl7S42sspAqLwNm-1
+
+
+costumer:
+
+https://www.figma.com/design/FydsmVRIKMvMuPjGADMlVa/Costumer?t=OGl7S42sspAqLwNm-1
+
+
+admin:
+
+https://www.figma.com/design/G0utZ44g2TC6Ydcl9Vpnhg/Package?t=OGl7S42sspAqLwNm-1

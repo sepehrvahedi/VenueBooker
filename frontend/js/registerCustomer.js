@@ -76,7 +76,6 @@ document.getElementById("register-form").addEventListener("submit", async functi
         }
     } catch (error) {
         console.error('Registration error:', error);
-        // Redirect to error page for unexpected exceptions
         alert("An unexpected error occurred: " + error.message);
         document.getElementById("register-form").reset();
         clearErrors();
@@ -102,7 +101,7 @@ function handleValidationErrors(result) {
             }
         });
     } else {
-        showError("register-error", "An error occurred during registration");
+        showError("register-error", "An error occurred during login.");
     }
 }
 
@@ -116,7 +115,7 @@ function handleUnexpectedError(result) {
             }
         });
     } else {
-        errorMessages.push("An unexpected error occurred during registration.");
+        errorMessages.push("An unexpected error occurred during login.");
     }
     
     alert(errorMessages.join('\n'))

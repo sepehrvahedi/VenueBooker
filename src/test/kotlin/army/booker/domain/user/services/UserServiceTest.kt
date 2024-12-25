@@ -42,14 +42,37 @@ class UserServiceTest {
     val password = "testPass123!"
     val hashedPassword = "hashedPassword"
     val role = Role.Supplier
-    val expectedUser = User(username = username, hashedPassword = hashedPassword, role = role)
+    val name = "John"
+    val surname = "Doe"
+    val nationalNumber = "123456789"
+    val phone = "+1234567890"
+
+    val expectedUser = User(
+      username = username,
+      hashedPassword = hashedPassword,
+      role = role,
+      name = name,
+      surname = surname,
+      nationalNumber = nationalNumber,
+      phone = phone
+    )
 
     whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.empty())
     whenever(passwordEncoder.encode(password)).thenReturn(hashedPassword)
     whenever(userRepository.save(any())).thenReturn(Mono.just(expectedUser))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password, role))
+    StepVerifier.create(
+      userService.createUser(
+        username = username,
+        password = password,
+        role = role,
+        name = name,
+        surname = surname,
+        nationalNumber = nationalNumber,
+        phone = phone
+      )
+    )
       .expectNext(expectedUser)
       .verifyComplete()
   }
@@ -60,12 +83,26 @@ class UserServiceTest {
     val username = "existingUser"
     val password = "testPass123!"
     val role = Role.Supplier
+    val name = "John"
+    val surname = "Doe"
+    val nationalNumber = "123456789"
+    val phone = "+1234567890"
     val existingUser = fixture<User>()
 
     whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password, role))
+    StepVerifier.create(
+      userService.createUser(
+        username = username,
+        password = password,
+        role = role,
+        name = name,
+        surname = surname,
+        nationalNumber = nationalNumber,
+        phone = phone
+      )
+    )
       .expectError(IllegalArgumentException::class.java)
       .verify()
   }
@@ -77,13 +114,27 @@ class UserServiceTest {
     val password = "testPass123!"
     val hashedPassword = "hashedPassword"
     val role = Role.Supplier
+    val name = "John"
+    val surname = "Doe"
+    val nationalNumber = "123456789"
+    val phone = "+1234567890"
 
     whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.empty())
     whenever(passwordEncoder.encode(password)).thenReturn(hashedPassword)
     whenever(userRepository.save(any())).thenReturn(Mono.error(RuntimeException("Database error")))
 
     // Act & Assert
-    StepVerifier.create(userService.createUser(username, password, role))
+    StepVerifier.create(
+      userService.createUser(
+        username = username,
+        password = password,
+        role = role,
+        name = name,
+        surname = surname,
+        nationalNumber = nationalNumber,
+        phone = phone
+      )
+    )
       .expectError(RuntimeException::class.java)
       .verify()
   }
@@ -95,7 +146,15 @@ class UserServiceTest {
     val password = "testPass123!"
     val hashedPassword = "hashedPassword"
     val role = Role.Supplier
-    val existingUser = User(username = username, hashedPassword = hashedPassword, role = role)
+    val existingUser = User(
+      username = username,
+      hashedPassword = hashedPassword,
+      role = role,
+      name = "John",
+      surname = "Doe",
+      nationalNumber = "123456789",
+      phone = "+1234567890"
+    )
 
     whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
     whenever(passwordEncoder.matches(password, hashedPassword)).thenReturn(true)
@@ -128,7 +187,15 @@ class UserServiceTest {
     val password = "wrongPassword"
     val hashedPassword = "hashedPassword"
     val role = Role.Supplier
-    val existingUser = User(username = username, hashedPassword = hashedPassword, role = role)
+    val existingUser = User(
+      username = username,
+      hashedPassword = hashedPassword,
+      role = role,
+      name = "John",
+      surname = "Doe",
+      nationalNumber = "123456789",
+      phone = "+1234567890"
+    )
 
     whenever(userRepository.findByUsernameAndRole(username, role)).thenReturn(Mono.just(existingUser))
     whenever(passwordEncoder.matches(password, hashedPassword)).thenReturn(false)

@@ -15,6 +15,18 @@ data class CreateUserRequest(
 
   @field:NotBlank(message = "Role is required")
   val role: String,
+
+  @field:NotBlank(message = "Name is required")
+  val name: String,
+
+  @field:NotBlank(message = "Surname is required")
+  val surname: String,
+
+  @field:NotBlank(message = "NationalNumber is required")
+  val nationalNumber: String,
+
+  @field:NotBlank(message = "Phone is required")
+  val phone: String,
 )
 
 data class CreateUserResponse(

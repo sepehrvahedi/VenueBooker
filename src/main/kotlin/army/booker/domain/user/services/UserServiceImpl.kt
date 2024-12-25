@@ -14,7 +14,15 @@ class UserServiceImpl(
   private val logger: Logger,
   private val passwordEncoder: BCryptPasswordEncoder = BCryptPasswordEncoder(),
 ) : UserService {
-  override fun createUser(username: String, password: String, role: Role): Mono<User> =
+  override fun createUser(
+    username: String,
+    password: String,
+    role: Role,
+    name: String,
+    surname: String,
+    nationalNumber: String,
+    phone: String,
+  ): Mono<User> =
     userRepository.findByUsernameAndRole(username, role)
       .flatMap<User> {
         logger.error("User with username $username already exists")
@@ -26,7 +34,11 @@ class UserServiceImpl(
           val newUser = User(
             username = username,
             role = role,
-            hashedPassword = hashedPassword
+            hashedPassword = hashedPassword,
+            name = name,
+            surname = surname,
+            nationalNumber = nationalNumber,
+            phone = phone,
           )
 
           userRepository.save(newUser)

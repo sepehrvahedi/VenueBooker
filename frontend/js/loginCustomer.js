@@ -38,25 +38,60 @@ document.getElementById("login-form").addEventListener("submit", async function 
                 setTimeout(() => {
                     window.location.href = '../dashboard/customerDashboard.html';
                 }, 2000);
+            } else {
+                // Handle validation errors returned from the server
+                handleValidationErrors(result);
             }
         } else {
-            // Handle validation errors
-            if (typeof result === 'object') {
-                Object.entries(result).forEach(([field, messages]) => {
-                    if (Array.isArray(messages)) {
-                        showError(`${field}-error`, messages[0]);
-                        document.getElementById(field).classList.add('error');
-                    }
-                });
-            } else {
-                showError("username-error", result.message || "Invalid credentials");
-            }
+            // Handle unexpected server errors
+            handleUnexpectedError(result);
         }
     } catch (error) {
         console.error('Login error:', error);
-        showError("username-error", "An error occurred. Please check if the server is running.");
+        alert("An unexpected error occurred: " + error.message);
+        document.getElementById('login-form').reset();
+        clearErrors();
     }
 });
+
+
+// Function to handle unexpected errors
+function handleUnexpectedError(result) {
+    const errorMessages = [];
+    if (typeof result === 'object') {
+        Object.entries(result).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+                errorMessages.push(messages[0]);
+            }
+        });
+    } else {
+        errorMessages.push("An unexpected error occurred during login.");
+    }
+    
+    alert(errorMessages.join('\n'))
+}
+
+function handleValidationErrors(result) {
+    const errorMessages = [];
+
+    if (typeof result === 'object') {
+        // Check for an error field
+        if (result.error) {
+            errorMessages.push(result.error);
+            redirectToErrorPage(errorMessages);
+            return;
+        }
+
+        Object.entries(result).forEach(([field, messages]) => {
+            if (Array.isArray(messages)) {
+                showError(`${field}-error`, messages[0]);
+                document.getElementById(field).classList.add('error');
+            }
+        });
+    } else {
+        showError("login-error", "An error occurred during login.");
+    }
+}
 
 function clearErrors() {
     const errorElements = document.getElementsByClassName("error-message");

@@ -13,10 +13,31 @@
         <h1>Customer<br>Registration</h1>
         <p>Join us and start your journey!</p>
         <form id="register-form">
+        <span class="error-message" id="register-error"></span>
+            <div class="input-group">
+                <label for="name"><i class="icon-user"></i> Name</label>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+                <span class="error-message" id="name-error"></span>
+            </div>
+            <div class="input-group">
+                <label for="surname"><i class="icon-user"></i> Surname</label>
+                <input type="text" id="surname" name="surname" placeholder="Surname" required>
+                <span class="error-message" id="surname-error"></span>
+            </div>
             <div class="input-group">
                 <label for="username"><i class="icon-user"></i> Username</label>
                 <input type="text" id="username" name="username" placeholder="Username" required>
                 <span class="error-message" id="username-error"></span>
+            </div>
+            <div class="input-group">
+                <label for="phone"><i class="icon-phone"></i> Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="09XXXXXXXXX (11 digits)" required>
+                <span class="error-message" id="phone-error"></span>
+            </div>
+            <div class="input-group">
+                <label for="national-number"><i class="icon-id-card"></i> National Number</label>
+                <input type="text" id="national-number" name="national-number" placeholder="XXXXXXXXXX (10 digits)" required>
+                <span class="error-message" id="national-number-error"></span>
             </div>
             <div class="input-group">
                 <label for="password"><i class="icon-lock"></i> Password</label>

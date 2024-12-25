@@ -10,7 +10,7 @@ body, html {
 .container {
     display: flex;
     width: 100%;
-    height: 100vh; /* Full viewport height */
+    height: auto; /* Full viewport height */
 }
 
 /* Left Section: Registration Form */
@@ -26,31 +26,33 @@ body, html {
 
 .logo {
     width: 100px;
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 h1 {
     font-size: 24px;
-    margin-bottom: 10px;
+    /* margin-bottom: 5px; */
+    margin-block-start: 0.5em;
+    margin-block-end: 0em;
     color: #333;
     text-align: center;
 }
 
 p {
     font-size: 16px;
-    margin-bottom: 30px;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
     color: #777;
     text-align: center;
 }
 
 .input-group {
-    margin-bottom: 20px;
+    /* margin-bottom: 5px; */
     width: 100%;
 }
 
 .input-group label {
-    margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 14px;
     color: #555;
 }
 
@@ -59,7 +61,7 @@ p {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 14px;
     background: rgba(255, 207, 197, 0.6);
 }
 
@@ -69,10 +71,11 @@ button.register-button {
     background: linear-gradient(to right, #ff7b7b, #ff3e3e);
     color: white;
     border: none;
- border-radius: 5px;
+    border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-    margin: 10px auto;
+    margin: 5px auto;
+    margin-top: 10px;
     display: block;
 }
 
@@ -82,7 +85,7 @@ button.register-button:hover {
 
 /* Social Buttons */
 .login-link {
-    margin-top: 20px;
+    margin-top: 5px;
     color: #777;
     font-size: 16px;
 }
@@ -92,8 +95,8 @@ button.register-button:hover {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 16px;
-    margin-top: 10px;
+    font-size: 14px;
+    margin-top: 5px;
     cursor: pointer;
     background: white;
 }
@@ -136,17 +139,17 @@ button.register-button:hover {
     pointer-events: none; /* Prevent interaction */
 }
 
-
 .error-message {
     color: #ff3e3e;
     font-size: 0.85rem;
-    margin-top: 4px;
+    margin-top: 5px;
+    margin-bottom: 2px;
     display: block;
-    min-height: 17px;
+    /* min-height: 10px; */
 }
 
 .input-group {
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .input-group input.error {

@@ -35,7 +35,7 @@ class UserController(
 ) {
   companion object {
     private const val THREE_HOURS_IN_SECONDS = 3 * 60 * 60L
-    private const val USER_CLAIM_KEY = "user"
+    const val USER_CLAIM_KEY = "user"
   }
 
   @PostMapping

@@ -1,0 +1,92 @@
+body {
+    background: linear-gradient(to right, #004d00, #66ff66);
+}
+
+.header {
+    padding: 15px;
+    margin: 30px;
+    background-color: #90caf9;
+    border-radius: 40px;
+    display: flex; /* Use flexbox for layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between items */
+}
+
+.avatar {
+    background-color: black;
+    width: 60px; /* Set a width for the avatar */
+    height: 60px; /* Set a height for the avatar */
+    margin-right: 20px; /* Space between avatar and username */
+    border-radius: 50%; /* Make the avatar circular*/
+    
+}
+
+.page-title {
+    flex-grow: 1;/* Allow the title to take up available space */
+    text-align: center; /* Center the title */
+    margin: 0; /* Remove default margin */
+    }
+
+.container {
+    display: flex;
+    margin: 30px;
+    
+}
+.sidebar {
+    background-color: #90caf9;
+    padding: 20px;
+    height: 80vh;
+    border-radius: 70px;
+    
+}
+.sidebar a {
+    display: block;
+    color: black;
+    padding: 20px;
+    text-decoration: none;
+    font-size: 1.5rem;
+}
+.sidebar .fa {
+    margin-right: 10px;
+}
+.sidebar a:hover {
+    background-color: #64b5f6;
+    border-radius: 5px;
+}
+
+.product_list {
+    flex: 1 ;
+    flex-wrap: wrap;
+    display: flex;
+    width: 80%;
+    margin-left: 35px;
+    border-radius: 70px;
+}
+
+.card {
+    position:relative;
+    background-color: #DBC7A3;
+    border-radius: 30px;
+    padding: 20px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    height: fit-content;
+    /* width: fit-content; */
+    width: 15%;
+    /* min-width: fit-content; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+
+.card img {
+    border-radius: 10px;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+.card .btn-group {
+    display: flex;
+    justify-content: space-between;
+}

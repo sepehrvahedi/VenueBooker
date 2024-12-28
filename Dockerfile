@@ -2,8 +2,20 @@ FROM gradle:8.4.0-jdk21 AS build
 
 WORKDIR /app
 
-COPY . .
+# Copy gradle configuration files first
+COPY settings.gradle.kts build.gradle.kts ./
 
+# Copy the gradle wrapper files
+COPY gradlew* ./
+COPY gradle gradle
+
+# Download dependencies first (this will be cached if no changes to build.gradle.kts)
+RUN gradle dependencies --no-daemon
+
+# Then copy the source code
+COPY src src
+
+# Build the application
 RUN gradle bootJar --no-daemon
 
 # Use a minimal Java runtime for the final image

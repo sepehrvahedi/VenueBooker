@@ -1,12 +1,16 @@
-rootProject.name = "booker"
-
-
 pluginManagement {
   repositories {
-    mavenCentral()
     gradlePluginPortal()
-//  maven {
-//    url = uri("<MAVEN REPO URL>")
-//  }
+    mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
   }
 }
+
+dependencyResolutionManagement {
+  repositories {
+    mavenCentral()
+    maven { url = uri("https://repo.spring.io/milestone") }
+  }
+}
+
+rootProject.name = "booker"

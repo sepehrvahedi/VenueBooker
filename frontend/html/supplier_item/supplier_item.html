@@ -1,61 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="supplier_item.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Product</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background: linear-gradient(to right, #004d00, #66ff66);
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      padding: 15px;
+      margin: 30px;
+      background-color: #90caf9;
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .avatar {
+      background-color: black;
+      width: 60px;
+      height: 60px;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+
+    .page-title {
+      flex-grow: 1;
+      text-align: center;
+      margin: 0;
+    }
+
+    .container {
+      display: flex;
+      margin: 30px;
+    }
+
+    .sidebar {
+      background-color: #90caf9;
+      padding: 20px;
+      height: 80vh;
+      border-radius: 70px;
+      min-width: 200px;
+    }
+
+    .sidebar a {
+      display: block;
+      color: black;
+      padding: 20px;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+
+    .sidebar .fa {
+      margin-right: 10px;
+    }
+
+    .sidebar a:hover {
+      background-color: #64b5f6;
+      border-radius: 5px;
+    }
+
+    .add-product-form {
+      flex: 1;
+      margin-left: 35px;
+    }
+
+    .input-card {
+      background-color: #90caf9;
+      padding: 30px;
+      border-radius: 70px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .image-upload {
+      width: 100%;
+      height: 200px;
+      background-color: #fff;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative; /* For positioning spinner if desired */
+      overflow: hidden;
+    }
+
+    /* When the image is uploaded, we'll show it in an <img> inside the same container */
+    .image-upload img {
+      max-width: 100%;
+      max-height: 100%;
+      display: none; /* Will show after file is read */
+      object-fit: cover;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      background-color: #fff;
+      border-radius: 15px;
+      padding: 10px;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .input-group .icon {
+      padding: 10px;
+      background-color: #64b5f6;
+      border-radius: 10px;
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .done-btn {
+      background-color: #64b5f6;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .done-btn:hover {
+      background-color: #1e88e5;
+    }
+
+    /* Circular progress spinner */
+    .spinner-overlay {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-color: rgba(255, 255, 255, 0.7); /* semi-transparent background */
+      display: none; /* hidden by default */
+      align-items: center;
+      justify-content: center;
+    }
+
+    .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #64b5f6;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <img src="../../images/customer_login_page/home.png" alt="avatar picture" class="avatar">
-        <strong><span id="username">asdf</span></strong>
-        <h1 class="page-title">Add Product</h1>
+  <div class="header">
+    <img
+      src="../../images/customer_login_page/home.png"
+      alt="avatar picture"
+      class="avatar"
+    />
+    <strong><span id="username">asdf</span></strong>
+    <h1 class="page-title">Add Product</h1>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="#"><i class="fas fa-home"></i>Home</a>
+      <a href="#"><i class="fas fa-plus"></i>Add</a>
+      <a href="#"><i class="fas fa-search"></i>Search</a>
+      <a href="#"><i class="fas fa-sync-alt"></i>Update</a>
+      <a href="#"><i class="fas fa-sign-out-alt"></i>Log out</a>
     </div>
 
-    <div class="container">
-        <div class="sidebar">
-            <a href="#"><i class="fas fa-home"></i>Home</a>
-            <a href="#"><i class="fas fa-plus"></i>Add</a>
-            <a href="#"><i class="fas fa-search"></i>Search</a>
-            <a href="#"><i class="fas fa-sync-alt"></i>Update</a>
-            <a href="#"><i class="fas fa-sign-out-alt"></i>Log out</a>
+    <div class="add-product-form">
+      <div class="input-card">
+        <!-- Image upload container -->
+        <div class="image-upload" id="imageUpload">
+          <i class="fas fa-image fa-3x" style="color: #90caf9;"></i>
+          <p>Click to upload image</p>
+          <!-- Spinner overlay -->
+          <div class="spinner-overlay" id="spinnerOverlay">
+            <div class="spinner"></div>
+          </div>
+          <!-- The uploaded image will be placed in this <img> -->
+          <img id="previewImage" alt="Uploaded" />
         </div>
 
-        <div class="add-product-form">
-            <div class="input-card">
-                <div class="image-upload">
-                    <i class="fas fa-image fa-3x" style="color: #90caf9;"></i>
-                    <p>Click to upload image</p>
-                </div>
+        <!-- We hide the file input, will click() it via JavaScript -->
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          style="display: none"
+        />
 
-                <div class="input-group">
-                    <input type="text" placeholder="Product Name">
-                    <span class="icon"><i class="fas fa-box"></i></span>
-                </div>
-
-                <div class="input-group">
-                    <input type="number" placeholder="Price">
-                    <span class="icon"><i class="fas fa-dollar-sign"></i></span>
-                </div>
-
-                <div class="input-group">
-                    <input type="number" placeholder="Quantity">
-                    <span class="icon"><i class="fas fa-calculator"></i></span>
-                </div>
-
-                <div class="input-group">
-                    <input type="text" placeholder="Description">
-                    <span class="icon"><i class="fas fa-tag"></i></span>
-                </div>
-
-                <button class="done-btn">
-                    <i class="fas fa-check"></i>
-                    DONE
-                </button>
-            </div>
+        <div class="input-group">
+          <input type="text" placeholder="Product Name" />
+          <span class="icon"><i class="fas fa-box"></i></span>
         </div>
+
+        <div class="input-group">
+          <input type="number" placeholder="Price" />
+          <span class="icon"><i class="fas fa-dollar-sign"></i></span>
+        </div>
+
+        <div class="input-group">
+          <input type="number" placeholder="Quantity" />
+          <span class="icon"><i class="fas fa-calculator"></i></span>
+        </div>
+
+        <div class="input-group">
+          <input type="text" placeholder="Description" />
+          <span class="icon"><i class="fas fa-tag"></i></span>
+        </div>
+
+        <button class="done-btn">
+          <i class="fas fa-check"></i>
+          DONE
+        </button>
+      </div>
     </div>
+  </div>
+
+  <script>
+    const imageUploadDiv = document.getElementById('imageUpload');
+    const fileInput = document.getElementById('fileInput');
+    const spinnerOverlay = document.getElementById('spinnerOverlay');
+    const previewImage = document.getElementById('previewImage');
+
+    // When user clicks the imageUploadDiv, trigger file input click
+    imageUploadDiv.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      // Show spinner (simulate upload)
+      spinnerOverlay.style.display = 'flex';
+
+      // In a real-world scenario, you'd send the file via AJAX/fetch here and
+      // track progress events. For demonstration, let's just read it locally.
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        // Hide spinner
+        spinnerOverlay.style.display = 'none';
+
+        // Show the uploaded image
+        previewImage.src = e.target.result;
+        previewImage.style.display = 'block';
+
+        // Optionally hide the placeholder icon/text
+        // (One approach is to simply set them to display:none)
+        imageUploadDiv.querySelector('i').style.display = 'none';
+        imageUploadDiv.querySelector('p').style.display = 'none';
+      };
+
+      // Simulate upload time by using a setTimeout
+      setTimeout(() => {
+        reader.readAsDataURL(file);
+      }, 1000); // 1 second "upload" delay
+    });
+  </script>
 </body>
 </html>

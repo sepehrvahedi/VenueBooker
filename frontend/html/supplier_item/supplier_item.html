@@ -312,7 +312,6 @@
         // Gather form data
         const name = document.getElementById('productName').value.trim();
         const price = parseFloat(document.getElementById('productPrice').value);
-        <!-- const quantity = parseInt(document.getElementById('productQuantity').value); -->
         const description = document.getElementById('productDescription').value.trim();
 
         // A placeholder array of products: your API expects ["DJ"], but let's
@@ -321,7 +320,7 @@
 
         // This token is from your sample; typically you’d get it from localStorage or another secure place
         const token = localStorage.getItem('userToken');
-
+        console.log(token);
         // Prepare request body in JSON
         // Match the sample: name, price, products array
         const requestBody = {
@@ -347,7 +346,8 @@
         }
 
         const responseData = await response.json();
-        alert("Data posted successfully! Response:\n" + JSON.stringify(responseData));
+        alert("Data posted successfully!");
+        // window.location.href = '../supplier_page/supplier_page.html';
       } catch (err) {
         console.error(err);
         alert("An error occurred while sending data.");

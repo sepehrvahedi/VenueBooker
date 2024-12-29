@@ -19,7 +19,7 @@ class SecurityConfig2 {
       .and()
       .authorizeExchange { exchanges ->
         exchanges
-          .pathMatchers("/api/v1/user/**").permitAll()
+          .pathMatchers("/api/v1/**").permitAll()
           .anyExchange().authenticated()
       }
       .httpBasic().disable()

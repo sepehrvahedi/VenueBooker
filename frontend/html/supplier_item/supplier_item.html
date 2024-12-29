@@ -199,11 +199,11 @@
 
   <div class="container">
     <div class="sidebar">
-      <a href="#"><i class="fas fa-home"></i>Home</a>
+      <a href="../supplier_page/supplier_page.html"><i class="fas fa-home"></i>Home</a>
       <a href="#"><i class="fas fa-plus"></i>Add</a>
-      <a href="#"><i class="fas fa-search"></i>Search</a>
-      <a href="#"><i class="fas fa-sync-alt"></i>Update</a>
-      <a href="#"><i class="fas fa-sign-out-alt"></i>Log out</a>
+      <!-- <a href="#"><i class="fas fa-search"></i>Search</a> -->
+      <!-- <a href="#"><i class="fas fa-sync-alt"></i>Update</a> -->
+      <a href="../logout/logout.html"><i class="fas fa-sign-out-alt"></i>Log out</a>
     </div>
 
     <div class="add-product-form">
@@ -228,27 +228,32 @@
           style="display: none"
         />
 
+        <!-- Product name -->
         <div class="input-group">
-          <input type="text" placeholder="Product Name" />
+          <input type="text" id="productName" placeholder="Product Name" />
           <span class="icon"><i class="fas fa-box"></i></span>
         </div>
 
+        <!-- Price -->
         <div class="input-group">
-          <input type="number" placeholder="Price" />
+          <input type="number" id="productPrice" placeholder="Price" />
           <span class="icon"><i class="fas fa-dollar-sign"></i></span>
         </div>
 
-        <div class="input-group">
-          <input type="number" placeholder="Quantity" />
+        <!-- Quantity -->
+        <!-- <div class="input-group">
+          <input type="number" id="productQuantity" placeholder="Quantity" />
           <span class="icon"><i class="fas fa-calculator"></i></span>
-        </div>
+        </div> -->
 
+        <!-- Description -->
         <div class="input-group">
-          <input type="text" placeholder="Description" />
+          <input type="text" id="productDescription" placeholder="Description" />
           <span class="icon"><i class="fas fa-tag"></i></span>
         </div>
 
-        <button class="done-btn">
+        <!-- Submit button -->
+        <button class="done-btn" id="doneBtn">
           <i class="fas fa-check"></i>
           DONE
         </button>
@@ -257,6 +262,8 @@
   </div>
 
   <script>
+    // ----- IMAGE UPLOAD + SPINNER -----
+    
     const imageUploadDiv = document.getElementById('imageUpload');
     const fileInput = document.getElementById('fileInput');
     const spinnerOverlay = document.getElementById('spinnerOverlay');
@@ -295,6 +302,56 @@
       setTimeout(() => {
         reader.readAsDataURL(file);
       }, 1000); // 1 second "upload" delay
+    });
+
+    // ----- SUBMIT / POST DATA -----
+    const doneBtn = document.getElementById('doneBtn');
+
+    doneBtn.addEventListener('click', async () => {
+      try {
+        // Gather form data
+        const name = document.getElementById('productName').value.trim();
+        const price = parseFloat(document.getElementById('productPrice').value);
+        <!-- const quantity = parseInt(document.getElementById('productQuantity').value); -->
+        const description = document.getElementById('productDescription').value.trim();
+
+        // A placeholder array of products: your API expects ["DJ"], but let's
+        // send [description] or something else you desire
+        const productsArray = [description || "DJ"];
+
+        // This token is from your sample; typically you’d get it from localStorage or another secure place
+        const token = localStorage.getItem('userToken');
+
+        // Prepare request body in JSON
+        // Match the sample: name, price, products array
+        const requestBody = {
+          name: name || "Sample Bundle",
+          price: price || 1000,
+          products: productsArray
+        };
+
+        // Make the POST request
+        const response = await fetch("http://localhost:8080/api/v1/bundles", {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          alert("Request failed: " + errorText);
+          return;
+        }
+
+        const responseData = await response.json();
+        alert("Data posted successfully! Response:\n" + JSON.stringify(responseData));
+      } catch (err) {
+        console.error(err);
+        alert("An error occurred while sending data.");
+      }
     });
   </script>
 </body>

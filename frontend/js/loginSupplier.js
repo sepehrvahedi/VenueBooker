@@ -36,7 +36,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
                 // Show success message and redirect
                 showSuccess("Login successful! Redirecting to dashboard...");
                 setTimeout(() => {
-                    window.location.href = '../dashboard/supplierDashboard.html';
+                    window.location.href = '../supplier_page/supplier_page.html';
                 }, 2000);
             } else {
                 // Handle validation errors returned from the server

@@ -25,94 +25,115 @@ window.addEventListener("DOMContentLoaded", fetchBundles);
 //     alert("Error fetching bundles");
 // }
 // }
-
 function renderBundles(bundles) {
-// Clear container
-bundlesContainer.innerHTML = "";
+    // Clear container
+    bundlesContainer.innerHTML = "";
 
-// Create a card for each bundle
-bundles.forEach((bundle) => {
-    const card = document.createElement("div");
-    card.className = "bundle-card";
+    // Create a card for each bundle
+    bundles.forEach((bundle) => {
+        const card = document.createElement("div");
+        card.className = "bundle-card";
 
-    // Example of an image. If your "bundle" object has an image URL, use it. 
-    // For demonstration, we’ll just use a placeholder image if none is found.
-    const img = document.createElement("img");
-    img.src = bundle.imageUrl || "https://via.placeholder.com/180x100?text=No+Image";
-    card.appendChild(img);
+        // Bundle image
+        const img = document.createElement("img");
+        img.src = bundle.imageUrl || "https://via.placeholder.com/180x100?text=No+Image";
+        card.appendChild(img);
 
-    // Container for details
-    const detailsDiv = document.createElement("div");
-    detailsDiv.className = "bundle-details";
-    card.appendChild(detailsDiv);
+        // Container for details
+        const detailsDiv = document.createElement("div");
+        detailsDiv.className = "bundle-details";
+        card.appendChild(detailsDiv);
 
-    // Name
-    const nameDiv = document.createElement("div");
-    nameDiv.className = "bundle-name";
-    nameDiv.textContent = bundle.name;
-    detailsDiv.appendChild(nameDiv);
+        // Name section
+        const nameSection = document.createElement("div");
+        nameSection.className = "info-section name-section";
+        const nameIcon = document.createElement("div");
+        nameIcon.className = "info-icon";
+        const nameText = document.createElement("div");
+        nameText.className = "info-text";
+        nameText.textContent = bundle.name;
+        nameSection.appendChild(nameIcon);
+        nameSection.appendChild(nameText);
+        detailsDiv.appendChild(nameSection);
 
-    // Price
-    const priceDiv = document.createElement("div");
-    priceDiv.className = "bundle-price";
-    priceDiv.textContent = bundle.price;
-    detailsDiv.appendChild(priceDiv);
+        // Price section
+        const priceSection = document.createElement("div");
+        priceSection.className = "info-section price-section";
+        const priceIcon = document.createElement("div");
+        priceIcon.className = "info-icon";
+        const priceText = document.createElement("div");
+        priceText.className = "info-text";
+        priceText.textContent = bundle.price;
+        priceSection.appendChild(priceIcon);
+        priceSection.appendChild(priceText);
+        detailsDiv.appendChild(priceSection);
 
-    // Quantity (if any)
-    const quantityDiv = document.createElement("div");
-    quantityDiv.className = "bundle-quantity";
-    quantityDiv.textContent = bundle.quantity || "N/A";
-    detailsDiv.appendChild(quantityDiv);
+        // Quantity section
+        // const quantitySection = document.createElement("div");
+        // quantitySection.className = "info-section quantity-section";
+        // const quantityIcon = document.createElement("div");
+        // quantityIcon.className = "info-icon";
+        // const quantityText = document.createElement("div");
+        // quantityText.className = "info-text";
+        // quantityText.textContent = bundle.quantity || "N/A";
+        // quantitySection.appendChild(quantityIcon);
+        // quantitySection.appendChild(quantityText);
+        // detailsDiv.appendChild(quantitySection);
 
-    // Tags (if your bundle has a "products" array or something similar)
-    const tagsDiv = document.createElement("div");
-    tagsDiv.className = "tags-container";
-    (bundle.products || []).forEach((tag) => {
-    const tagSpan = document.createElement("span");
-    tagSpan.className = "tag-item";
-    tagSpan.textContent = tag;
-    tagsDiv.appendChild(tagSpan);
+        // Tags section
+        const tagsSection = document.createElement("div");
+        tagsSection.className = "info-section tags-section";
+        const tagsIcon = document.createElement("div");
+        tagsIcon.className = "info-icon";
+        const tagsContent = document.createElement("div");
+        tagsContent.className = "tags-content";
+        (bundle.products || []).forEach((tag) => {
+            const tagSpan = document.createElement("span");
+            tagSpan.className = "tag-item";
+            tagSpan.textContent = tag;
+            tagsContent.appendChild(tagSpan);
+        });
+        tagsSection.appendChild(tagsIcon);
+        tagsSection.appendChild(tagsContent);
+        detailsDiv.appendChild(tagsSection);
+
+        // Actions section
+        const actionsDiv = document.createElement("div");
+        actionsDiv.className = "actions";
+
+        // Delete button
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        deleteBtn.onclick = () => handleDelete(bundle.id);
+        actionsDiv.appendChild(deleteBtn);
+
+        // Edit button
+        const editBtn = document.createElement("button");
+        editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+        editBtn.onclick = () => {
+            window.location.href = `../edit_bundle/edit_bundle.html?id=${bundle.id}`;
+        };
+        actionsDiv.appendChild(editBtn);
+
+        // Availability toggle
+        const toggleLabel = document.createElement("label");
+        toggleLabel.className = "switch";
+
+        const toggleInput = document.createElement("input");
+        toggleInput.type = "checkbox";
+        toggleInput.checked = bundle.active;
+        toggleInput.onchange = () => handleToggle(bundle.id, toggleInput.checked);
+
+        const sliderSpan = document.createElement("span");
+        sliderSpan.className = "slider round";
+
+        toggleLabel.appendChild(toggleInput);
+        toggleLabel.appendChild(sliderSpan);
+        actionsDiv.appendChild(toggleLabel);
+
+        card.appendChild(actionsDiv);
+        bundlesContainer.appendChild(card);
     });
-    detailsDiv.appendChild(tagsDiv);
-
-    // Actions (3 buttons)
-    const actionsDiv = document.createElement("div");
-    actionsDiv.className = "actions";
-
-    // 2.1) Delete button
-    const deleteBtn = document.createElement("button");
-    deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-    deleteBtn.onclick = () => handleDelete(bundle.id);
-    actionsDiv.appendChild(deleteBtn);
-
-    // 2.2) Edit button -> go to add-bundle.html?id=<bundle.id>
-    const editBtn = document.createElement("button");
-    editBtn.innerHTML = '<i class="fas fa-pen"></i>';
-    editBtn.onclick = () => {
-    window.location.href = `../edit_bundle/edit_bundle.html?id=${bundle.id}`;
-    };
-    actionsDiv.appendChild(editBtn);
-
-    // 2.3) Availability toggle
-    const toggleLabel = document.createElement("label");
-    toggleLabel.className = "switch";
-
-    const toggleInput = document.createElement("input");
-    toggleInput.type = "checkbox";
-    toggleInput.checked = bundle.active; // or false if not active
-    toggleInput.onchange = () => handleToggle(bundle.id, toggleInput.checked);
-
-    const sliderSpan = document.createElement("span");
-    sliderSpan.className = "slider round";
-
-    toggleLabel.appendChild(toggleInput);
-    toggleLabel.appendChild(sliderSpan);
-    actionsDiv.appendChild(toggleLabel);
-
-    card.appendChild(actionsDiv);
-
-    bundlesContainer.appendChild(card);
-});
 }
 
 // DELETE handler

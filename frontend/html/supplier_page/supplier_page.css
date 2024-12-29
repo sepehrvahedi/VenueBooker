@@ -214,3 +214,62 @@ body {
   input:checked + .slider:before {
     transform: translateX(20px);
   }
+
+
+  .search-sort-sidebar {
+    width: 300px;
+    background: #e0f7fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.search-box, .sort-box {
+    margin-bottom: 20px;
+}
+
+.search-box h3, .sort-box h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sort-option {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.sort-option span {
+    flex: 1;
+}
+
+.sort-button {
+    width: 40px;
+    height: 25px;
+    background: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.sort-button.active {
+    background: #004d40;
+}
+
+button#doneButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #00796b;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button#doneButton.loading {
+    background: #004d40;
+    cursor: not-allowed;
+}

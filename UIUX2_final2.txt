@@ -1,0 +1,13 @@
+figma design ui/ux for sprint 1:
+
+dashboard:
+
+https://www.figma.com/design/nRGEVrSZZwOxtKxrk9fLhg/Untitled?node-id=0-1&t=YUzkav5kywXCMW31-1
+
+add:
+
+https://www.figma.com/design/0jcjjQSXifb61oyjvLiJ3E/Untitled?node-id=0-1&t=o1xARp4AI8gpGJtr-1
+
+edit:
+
+https://www.figma.com/design/JMRp3YzMAYofIZ9CtZzkx5/Untitled?node-id=0-1&t=4XWMyoKzfhMIwtee-1

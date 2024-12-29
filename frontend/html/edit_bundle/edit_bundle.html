@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Product</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="./edit_bundle.css" />
+</head>
+<body>
+  <div class="header">
+    <img
+      src="../../images/customer_login_page/home.png"
+      alt="avatar picture"
+      class="avatar"
+    />
+    <strong><span id="username">asdf</span></strong>
+    <h1 class="page-title">Edit Product</h1>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <a href="../supplier_page/supplier_page.html"><i class="fas fa-home"></i>Home</a>
+      <a href="#"><i class="fas fa-plus"></i>Add</a>
+      <a href="../logout/logout.html"><i class="fas fa-sign-out-alt"></i>Log out</a>
+    </div>
+
+    <div class="add-product-form">
+      <div class="input-card">
+        <!-- Image upload container -->
+        <div class="image-upload" id="imageUpload">
+          <i class="fas fa-image fa-3x" style="color: #90caf9;"></i>
+          <p>Click to upload image</p>
+          <!-- Spinner overlay -->
+          <div class="spinner-overlay" id="spinnerOverlay">
+            <div class="spinner"></div>
+          </div>
+          <!-- The uploaded image will be placed in this <img> -->
+          <img id="previewImage" alt="Uploaded" />
+        </div>
+
+        <!-- We hide the file input, will click() it via JavaScript -->
+        <input
+          type="file"
+          id="fileInput"
+          accept="image/*"
+          style="display: none"
+        />
+
+        <!-- Product name -->
+        <div class="input-group">
+          <input type="text" id="productName" placeholder="Product Name" />
+          <span class="icon"><i class="fas fa-box"></i></span>
+        </div>
+
+        <!-- Price -->
+        <div class="input-group">
+          <input type="number" id="productPrice" placeholder="Price" />
+          <span class="icon"><i class="fas fa-dollar-sign"></i></span>
+        </div>
+
+        <!-- Description -->
+        <div class="input-group">
+          <input type="text" id="productDescription" placeholder="Description" />
+          <span class="icon"><i class="fas fa-tag"></i></span>
+        </div>
+
+        <!-- Submit button -->
+        <button class="done-btn" id="doneBtn">
+          <i class="fas fa-check"></i>
+          DONE
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./edit_bundle.js">
+    
+  </script>
+</body>
+</html>

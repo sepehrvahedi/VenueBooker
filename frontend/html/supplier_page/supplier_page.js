@@ -89,7 +89,7 @@ const token = localStorage.getItem("userToken");
               const editBtn = document.createElement("button");
               editBtn.innerHTML = '<i class="fas fa-pen"></i>';
               editBtn.onclick = () => {
-                window.location.href = `add-bundle.html?id=${bundle.id}`;
+                window.location.href = `../edit_bundle/edit_bundle.html?id=${bundle.id}`;
               };
               actionsDiv.appendChild(editBtn);
       

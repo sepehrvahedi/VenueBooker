@@ -1,62 +1,3 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const token = localStorage.getItem("userToken");
-    if (!token) {
-      alert("Unauthorized access. Please log in first.");
-      window.location.href = "../login/login.html"; // Redirect to login page if no token
-      return;
-    }
-
-    // 1. Get the `id` from the URL query string
-    const urlParams = new URLSearchParams(window.location.search);
-    const bundleId = urlParams.get("id");
-    if (!bundleId) {
-      alert("No bundle ID found in the URL.");
-      return;
-    }
-
-    try {
-      // 2. Fetch all bundles
-      const response = await fetch("http://localhost:8080/api/v1/bundles", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-
-      if (!response.ok) {
-        alert("Failed to fetch bundles from the server.");
-        return;
-      }
-
-      const data = await response.json();
-      const bundles = data.bundles;
-
-      // 3. Find the bundle with the matching ID
-      const bundle = bundles.find((b) => b.id === bundleId);
-      if (!bundle) {
-        alert("No bundle found with the specified ID.");
-        return;
-      }
-
-      // 4. Populate the fields with the bundle's data
-      document.getElementById("productName").value = bundle.name;
-      document.getElementById("productPrice").value = bundle.price;
-      document.getElementById("productDescription").value = bundle.products.join(", ");
-
-      // Optionally, you could add logic to pre-populate the image if your bundle data includes an image URL.
-      // For example:
-      // if (bundle.imageUrl) {
-      //   const previewImage = document.getElementById("previewImage");
-      //   previewImage.src = bundle.imageUrl;
-      //   previewImage.style.display = "block";
-      //   document.querySelector(".image-upload i").style.display = "none";
-      //   document.querySelector(".image-upload p").style.display = "none";
-      // }
-    } catch (error) {
-      console.error("Error fetching bundles:", error);
-      alert("An error occurred while fetching bundle data.");
-    }
-  });
-
 // ----- IMAGE UPLOAD + SPINNER -----
     
 const imageUploadDiv = document.getElementById('imageUpload');
@@ -105,16 +46,13 @@ const doneBtn = document.getElementById('doneBtn');
 doneBtn.addEventListener('click', async () => {
   try {
     // Gather form data
-    // const name = document.getElementById('productName').value.trim();
-    const urlParams = new URLSearchParams(window.location.search);
-    const bundleId = urlParams.get("id");
     const name = document.getElementById('productName').value.trim();
     const price = parseFloat(document.getElementById('productPrice').value);
     const description = document.getElementById('productDescription').value.trim();
 
     // A placeholder array of products: your API expects ["DJ"], but let's
     // send [description] or something else you desire
-    const productsArray = [description || "DJ"];
+    const productsArray = [description];
 
     // This token is from your sample; typically you’d get it from localStorage or another secure place
     const token = localStorage.getItem('userToken');
@@ -122,21 +60,22 @@ doneBtn.addEventListener('click', async () => {
     // Prepare request body in JSON
     // Match the sample: name, price, products array
     const requestBody = {
-      ids: [bundleId],
-      name: name,
+      name: name || "Sample Bundle",
       price: price || 1000,
       products: productsArray
     };
 
-    // Make the PUT request
+    // Make the POST request
     const response = await fetch("http://localhost:8080/api/v1/bundles", {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: "Bearer " + token,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(requestBody)
     });
+
+    console.log(response);
 
     if (!response.ok) {
       const errorText = await response.text();

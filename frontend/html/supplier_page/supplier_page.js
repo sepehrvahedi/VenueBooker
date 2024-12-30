@@ -199,7 +199,7 @@ async function fetchBundles() {
         const token = localStorage.getItem("userToken");
         if (!token) {
             alert("Unauthorized access. Please log in first.");
-            //   window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
+              window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
             return;
         }
 

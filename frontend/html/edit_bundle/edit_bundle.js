@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("userToken");
     if (!token) {
       alert("Unauthorized access. Please log in first.");
-      window.location.href = "../login/login.html"; // Redirect to login page if no token
+      window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
       return;
     }
 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
 
       const data = await response.json();
-      const bundles = data.bundles;
+      const bundles = data['bundles'];
 
       // 3. Find the bundle with the matching ID
       const bundle = bundles.find((b) => b.id === bundleId);
@@ -44,13 +44,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Optionally, you could add logic to pre-populate the image if your bundle data includes an image URL.
       // For example:
-      // if (bundle.imageUrl) {
-      //   const previewImage = document.getElementById("previewImage");
-      //   previewImage.src = bundle.imageUrl;
-      //   previewImage.style.display = "block";
-      //   document.querySelector(".image-upload i").style.display = "none";
-      //   document.querySelector(".image-upload p").style.display = "none";
-      // }
+      if (bundle['imageUrl']) {
+        const previewImage = document.getElementById("previewImage");
+        previewImage.src = bundle['imageUrl'];
+        previewImage.style.display = "block";
+        document.querySelector(".image-upload i").style.display = "none";
+        document.querySelector(".image-upload p").style.display = "none";
+      }
     } catch (error) {
       console.error("Error fetching bundles:", error);
       alert("An error occurred while fetching bundle data.");
@@ -144,7 +144,7 @@ doneBtn.addEventListener('click', async () => {
 
     const responseData = await response.json();
     alert("Data posted successfully!");
-    // window.location.href = '../supplier_page/supplier_page.html';
+    window.location.href = '../supplier_page/supplier_page.html';
   } catch (err) {
     console.error(err);
     alert("An error occurred while sending data.");

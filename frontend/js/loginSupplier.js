@@ -47,8 +47,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
             handleUnexpectedError(result);
         }
     } catch (error) {
-        console.error('Login error:', error);
-        alert("An unexpected error occurred: " + error.message);
+        console.error('Login error:', error.error);
+        alert("An unexpected error occurred: " + error.error);
         document.getElementById('login-form').reset();
         clearErrors();
     }

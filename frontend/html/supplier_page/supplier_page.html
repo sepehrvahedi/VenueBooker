@@ -36,17 +36,20 @@
         <div class="search-sort-sidebar">
             <div class="search-box">
                 <h3>Search</h3>
+                <label for="searchName">Product Name:</label>
                 <input type="text" id="searchName" placeholder="Name">
-                <select id="searchStatus">
-                    <option value="">Select Inventory Status</option>
+                <label for="minPrice">Minimum Price:</label>
+                <input type="number" id="minPrice" placeholder="Min Price" min="0">
+                <label for="maxPrice">Maximum Price:</label>
+                <input type="number" id="maxPrice" placeholder="Max Price" min="0" >
+                <label for="searchTags">Product Tags:</label>
+                <input type="text" id="searchTags" placeholder="Tags (comma-separated)">
+                <label for="searchStatus">Inventory Status:</label>
+                <select name="searchStatus" id="searchStatus">
+                    <option value="" selected>--Select--</option>
                     <option value="true">Active</option>
                     <option value="false">Inactive</option>
                 </select>
-                <div>
-                    <input type="number" id="minPrice" placeholder="Min Price">
-                    <input type="number" id="maxPrice" placeholder="Max Price">
-                </div>
-                <input type="text" id="searchTags" placeholder="Tags (comma-separated)">
                 <button id="resetSearch">Reset</button>
             </div>
             <div class="sort-box">
@@ -70,6 +73,6 @@
             <button id="doneButton">DONE</button>
         </div>
     </div>
-    <script src="./supplier_page.js?v=1"></script>
+    <script src="supplier_page.js"></script>
 </body>
 </html>

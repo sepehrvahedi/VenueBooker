@@ -4,27 +4,7 @@ const bundlesContainer = document.getElementById("bundlesContainer");
 // 1) Fetch bundles on page load
 window.addEventListener("DOMContentLoaded", fetchBundles);
 
-// async function fetchBundles() {
-// try {
-//     const response = await fetch("http://localhost:8080/api/v1/bundles", {
-//     headers: {
-//         Authorization: "Bearer " + token,
-//     },
-//     });
 
-//     if (!response.ok) {
-//     alert("Failed to fetch bundles");
-//     return;
-//     }
-
-//     const data = await response.json();
-//     const bundles = data.bundles;
-//     renderBundles(bundles);
-// } catch (error) {
-//     console.error(error);
-//     alert("Error fetching bundles");
-// }
-// }
 function renderBundles(bundles) {
     // Clear container
     bundlesContainer.innerHTML = "";
@@ -36,7 +16,7 @@ function renderBundles(bundles) {
 
         // Bundle image
         const img = document.createElement("img");
-        img.src = bundle.imageUrl || "https://via.placeholder.com/180x100?text=No+Image";
+        img.src = bundle['imageUrl'] || "https://via.placeholder.com/180x100?text=No+Image";
         card.appendChild(img);
 
         // Container for details
@@ -90,7 +70,7 @@ function renderBundles(bundles) {
         (bundle.products || []).forEach((tag) => {
             const tagSpan = document.createElement("span");
             tagSpan.className = "tag-item";
-            tagSpan.textContent = tag;
+            tagSpan.textContent = tag.toString();
             tagsContent.appendChild(tagSpan);
         });
         tagsSection.appendChild(tagsIcon);
@@ -138,59 +118,59 @@ function renderBundles(bundles) {
 
 // DELETE handler
 async function handleDelete(bundleId) {
-const confirmed = confirm("Are you sure you want to delete this item?");
-if (!confirmed) return;
+    const confirmed = confirm("Are you sure you want to delete this item?");
+    if (!confirmed) return;
 
-try {
-    const response = await fetch(`http://localhost:8080/api/v1/bundles/delete/${bundleId}`, {
-    method: "DELETE",
-    headers: {
-        Authorization: "Bearer " + token,
-    },
-    });
+    try {
+        const response = await fetch(`http://localhost:8080/api/v1/bundles/delete/${bundleId}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        });
 
-    if (!response.ok) {
-    alert("Delete failed");
-    return;
+        if (!response.ok) {
+            alert("Delete failed");
+            return;
+        }
+
+        alert("Bundle deleted successfully");
+        // Re-fetch or remove the card from DOM
+        await fetchBundles();
+    } catch (error) {
+        console.error(error.error);
+        alert("Error deleting bundle");
     }
-
-    alert("Bundle deleted successfully");
-    // Re-fetch or remove the card from DOM
-    fetchBundles();
-} catch (error) {
-    console.error(error);
-    alert("Error deleting bundle");
-}
 }
 
 // Toggle Availability
 async function handleToggle(bundleId, newActiveStatus) {
-// e.g. PUT /api/v1/bundles/status with JSON { id: "...", active: false or true }
-const payload = {
-    id: bundleId,
-    active: newActiveStatus,
-};
+    // e.g. PUT /api/v1/bundles/status with JSON { id: "...", active: false or true }
+    const payload = {
+        id: bundleId,
+        active: newActiveStatus,
+    };
 
-try {
-    const response = await fetch("http://localhost:8080/api/v1/bundles/status", {
-    method: "PUT",
-    headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-    },
-    body: JSON.stringify(payload),
-    });
+    try {
+        const response = await fetch("http://localhost:8080/api/v1/bundles/status", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + token,
+            },
+            body: JSON.stringify(payload),
+        });
 
-    if (!response.ok) {
-    alert("Failed to update status");
-    return;
+        if (!response.ok) {
+            alert("Failed to update status");
+            return;
+        }
+
+        console.log("Status updated successfully");
+    } catch (error) {
+        console.error(error.error);
+        alert("Error updating status");
     }
-
-    console.log("Status updated successfully");
-} catch (error) {
-    console.error(error);
-    alert("Error updating status");
-}
 }
 
 const doneButton = document.getElementById("doneButton");
@@ -215,6 +195,14 @@ document.querySelectorAll(".sort-button").forEach((button) => {
 async function fetchBundles() {
     console.log("Fetching bundles...");
     try {
+        // check if user is logged in
+        const token = localStorage.getItem("userToken");
+        if (!token) {
+            alert("Unauthorized access. Please log in first.");
+            //   window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
+            return;
+        }
+
         // Show loading state on DONE button
         doneButton.textContent = "Loading...";
         doneButton.classList.add("loading");
@@ -248,62 +236,19 @@ async function fetchBundles() {
         }
 
         const data = await response.json();
-        const bundles = data.bundles;
+        const bundles = data['bundles'];
         renderBundles(bundles);
 
         // Reset DONE button state
         doneButton.textContent = "DONE";
         doneButton.classList.remove("loading");
     } catch (error) {
-        console.error(error);
+        console.error(error.error);
         alert("Error fetching bundles");
         doneButton.textContent = "DONE";
         doneButton.classList.remove("loading");
     }
 }
-
-// function renderBundles(bundles) {
-//     // Clear container
-//     bundlesContainer.innerHTML = "";
-
-//     // Render each bundle
-//     bundles.forEach((bundle) => {
-//         const card = document.createElement("div");
-//         card.className = "bundle-card";
-
-//         // Image
-//         const img = document.createElement("img");
-//         img.src = bundle.imageUrl || "https://via.placeholder.com/180x100?text=No+Image";
-//         card.appendChild(img);
-
-//         // Details
-//         const detailsDiv = document.createElement("div");
-//         detailsDiv.className = "bundle-details";
-//         card.appendChild(detailsDiv);
-
-//         const nameDiv = document.createElement("div");
-//         nameDiv.className = "bundle-name";
-//         nameDiv.textContent = bundle.name;
-//         detailsDiv.appendChild(nameDiv);
-
-//         const priceDiv = document.createElement("div");
-//         priceDiv.className = "bundle-price";
-//         priceDiv.textContent = `Price: ${bundle.price}`;
-//         detailsDiv.appendChild(priceDiv);
-
-//         const tagsDiv = document.createElement("div");
-//         tagsDiv.className = "tags-container";
-//         (bundle.products || []).forEach((tag) => {
-//             const tagSpan = document.createElement("span");
-//             tagSpan.className = "tag-item";
-//             tagSpan.textContent = tag;
-//             tagsDiv.appendChild(tagSpan);
-//         });
-//         detailsDiv.appendChild(tagsDiv);
-
-//         bundlesContainer.appendChild(card);
-//     });
-// }
 
 function resetSearch() {
     document.getElementById("searchName").value = "";
@@ -312,6 +257,8 @@ function resetSearch() {
     document.getElementById("maxPrice").value = "";
     document.getElementById("searchTags").value = "";
     sorting = "";
-    document.querySelectorAll(".sort-button").forEach((btn) => btn.classList.remove("active"));
+    document.querySelectorAll(".sort-button").forEach(
+        (btn) => btn.classList.remove("active")
+    );
     fetchBundles();
 }

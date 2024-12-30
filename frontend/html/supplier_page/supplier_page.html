@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supplier Products Page</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>  
-    <link rel="stylesheet" type="text/css" href="./supplier_page.css?v=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./supplier_page.css?v=2">
 </head>
 <body>
     <div class="header">
@@ -42,9 +44,12 @@
                     <option value="true">Active</option>
                     <option value="false">Inactive</option>
                 </select>
-                <div>
-                    <input type="number" id="minPrice" placeholder="Min Price">
-                    <input type="number" id="maxPrice" placeholder="Max Price">
+                <div class="price-range-container">
+                    <div id="slider"></div>
+                    <div class="price-labels">
+                        <span id="minPriceLabel"></span>
+                        <span id="maxPriceLabel"></span>
+                    </div>
                 </div>
                 <input type="text" id="searchTags" placeholder="Tags (comma-separated)">
                 <button id="resetSearch">Reset</button>
@@ -70,6 +75,6 @@
             <button id="doneButton">DONE</button>
         </div>
     </div>
-    <script src="./supplier_page.js?v=1"></script>
+    <script src="./supplier_page.js?v=2"></script>
 </body>
 </html>

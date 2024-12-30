@@ -3,6 +3,39 @@ const bundlesContainer = document.getElementById("bundlesContainer");
 
 // 1) Fetch bundles on page load
 window.addEventListener("DOMContentLoaded", fetchBundles);
+let priceSlider;
+let maxPossiblePrice = 0;
+let initialized = false;
+
+// Initialize price range slider
+function initializePriceSlider(bundles) {
+    maxPossiblePrice = Math.max(...bundles.map(bundle => parseFloat(bundle.price)));
+    const sliderElement = document.getElementById('slider');
+    
+    // If slider already exists, destroy it first
+    if (priceSlider) {
+        priceSlider.destroy();
+    }
+    
+    // Create new slider
+    priceSlider = noUiSlider.create(sliderElement, {
+        start: [0, maxPossiblePrice],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': maxPossiblePrice
+        }
+    });
+    
+    // Update labels on slide
+    const minLabel = document.getElementById('minPriceLabel');
+    const maxLabel = document.getElementById('maxPriceLabel');
+    
+    priceSlider.on('update', function(values) {
+        minLabel.textContent = '$' + Math.round(values[0]);
+        maxLabel.textContent = '$' + Math.round(values[1]);
+    });
+}
 
 // async function fetchBundles() {
 // try {
@@ -222,15 +255,19 @@ async function fetchBundles() {
         // Build query params for search and sorting
         const name = document.getElementById("searchName").value;
         const active = document.getElementById("searchStatus").value;
-        const minPrice = document.getElementById("minPrice").value;
-        const maxPrice = document.getElementById("maxPrice").value;
+
+        const [minPrice, maxPrice] = priceSlider ? priceSlider.get() : [0, maxPossiblePrice];
+        
+
         const tags = document.getElementById("searchTags").value;
 
         let query = `?`;
         if (name) query += `name=${name}&`;
         if (active) query += `active=${active}&`;
-        if (minPrice) query += `minPrice=${minPrice}&`;
-        if (maxPrice) query += `maxPrice=${maxPrice}&`;
+
+        if (minPrice > 0) query += `minPrice=${Math.round(minPrice)}&`;
+        if (maxPrice < maxPossiblePrice) query += `maxPrice=${Math.round(maxPrice)}&`;
+
         if (tags) query += `products=${tags}&`;
         if (sorting) query += `sorting=${sorting}`;
 
@@ -249,6 +286,10 @@ async function fetchBundles() {
 
         const data = await response.json();
         const bundles = data.bundles;
+        if (!initialized){
+            initialized = true;
+            initializePriceSlider(bundles);
+        }
         renderBundles(bundles);
 
         // Reset DONE button state
@@ -308,8 +349,11 @@ async function fetchBundles() {
 function resetSearch() {
     document.getElementById("searchName").value = "";
     document.getElementById("searchStatus").value = "";
-    document.getElementById("minPrice").value = "";
-    document.getElementById("maxPrice").value = "";
+    
+    if (priceSlider) {
+        priceSlider.set([0, maxPossiblePrice]);
+    }
+
     document.getElementById("searchTags").value = "";
     sorting = "";
     document.querySelectorAll(".sort-button").forEach((btn) => btn.classList.remove("active"));

@@ -241,7 +241,44 @@ input:checked + .slider:before {
     border-radius: 8px;
     background-color: rgba(255, 255, 255, 0.9);
 }
+.price-range-container {
+    margin: 15px 0;
+    padding: 10px;
+}
 
+#slider {
+    height: 5px;
+    background: #ccc;
+    border-radius: 3px;
+    position: relative;
+}
+
+#slider .noUi-connect {
+    background: #64b5f6;
+}
+
+#slider .noUi-handle {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 2px solid #64b5f6;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+#slider .noUi-handle:before,
+#slider .noUi-handle:after {
+    display: none;
+}
+
+.price-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: #333;
+    font-size: 0.9rem;
+}
 .sort-option {
     display: flex;
     align-items: center;

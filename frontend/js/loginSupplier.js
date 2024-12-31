@@ -26,8 +26,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
         const result = await response.json();
 
         if (response.ok) {
-            if (result.jwtToken) {
-                localStorage.setItem('userToken', result.jwtToken);
+            if (result['jwtToken']) {
+                localStorage.setItem('userToken', result['jwtToken']);
 
                 // Clear the form and errors
                 document.getElementById("login-form").reset();
@@ -36,7 +36,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
                 // Show success message and redirect
                 showSuccess("Login successful! Redirecting to dashboard...");
                 setTimeout(() => {
-                    window.location.href = '../dashboard/supplierDashboard.html';
+                    window.location.href = '../supplier_page/supplier_page.html';
                 }, 2000);
             } else {
                 // Handle validation errors returned from the server
@@ -47,8 +47,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
             handleUnexpectedError(result);
         }
     } catch (error) {
-        console.error('Login error:', error);
-        alert("An unexpected error occurred: " + error.message);
+        console.error('Login error:', error.error);
+        alert("An unexpected error occurred: " + error.error);
         document.getElementById('login-form').reset();
         clearErrors();
     }

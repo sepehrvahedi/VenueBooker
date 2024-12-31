@@ -1,0 +1,353 @@
+body {
+    background: linear-gradient(to right, #004d00, #66ff66);
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.header {
+    background-color: #8CB0D1;
+    border-radius: 40px;
+    padding: 15px 30px;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+
+.page-title {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+}
+
+.sidebar {
+    background-color: #8CB0D1;
+    padding: 15px;
+    border-radius: 25px;
+    width: 15%;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    color: #333;
+    padding: 12px 15px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+.sidebar a:hover {
+    background: #C2DCF4;
+}
+
+.sidebar .fa {
+    margin-right: 12px;
+    width: 20px;
+}
+
+
+.bundles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    flex-grow: 1;
+}
+.bundle-card {
+    background-color: #DBC7A3;
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+}
+
+.bundle-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.bundle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.info-section {
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 30px;
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.name-section .info-icon {
+    background-image: url('../../images/icons/name-tag.png');
+}
+
+.price-section .info-icon {
+    background-image: url('../../images/icons/price-tag.png');
+}
+
+.quantity-section .info-icon {
+    background-image: url('../../images/icons/quantity.png');
+}
+
+.tags-section .info-icon {
+    background-image: url('../../images/icons/tags.png');
+}
+
+.info-text {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.tags-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.tag-item {
+    background-color: #ffd7d7;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+/* Make the text appear more prominently next to icons */
+.bundle-name span,
+.bundle-price span,
+.bundle-quantity span {
+    font-size: 0.95rem;
+    color: #333;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.actions button {
+    background-color: #90caf9;
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.search-sort-sidebar {
+    background-color: #8CB0D1;
+    padding: 15px;
+    border-radius: 25px;
+    width: 20%;
+}
+
+.search-box, .sort-box {
+    margin-bottom: 20px;
+}
+
+.search-box h3, .sort-box h3 {
+    color: #333;
+    margin: auto;
+    font-size: 1.2rem;
+}
+
+.search-box input,
+.search-box select {
+    width: 95%;
+    padding: 8px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #C2DCF4;
+}
+
+.sort-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.sort-option span {
+    flex: 1;
+    color: #333;
+}
+
+.sort-button {
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sort-button:hover {
+    background-color: #64b5f6;
+    color: white;
+}
+
+.sort-button.active {
+    background-color: #64b5f6;
+    color: white;
+}
+
+#doneButton {
+    width: 100%;
+    padding: 20px;
+    background-color: #C2DCF4;
+    margin: 0 0 0 6px;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    text-align: right;
+}
+
+#doneButton:hover {
+    background-color: #006600;
+}
+
+#resetSearch {
+    width: 100%;
+    text-align: right;
+    padding: 20px;
+    margin: 0 6px 0 0;
+    font-weight: bold;
+    background-color: #C2DCF4;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+#resetSearch:hover {
+    background-color: lightpink;
+}
+
+.reset-done-buttons {
+    display: flex;
+}
+.reset-done-buttons img {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    margin: 4px 1px 0 1px;
+}
+.button-area {
+    width: 50%;
+    margin: 0 15px
+}
+
+.search-header,
+.sort-header {
+    display: flex;
+}
+
+.search-header div,
+.sort-header div {
+    width: 50%;
+
+}
+
+
+.search-header img,
+.sort-header img{
+    width: 35px;
+    height: 35px;
+    margin-left: 70%;
+}
+
+
+.line hr{
+    margin: 0 auto 5px auto;
+    width: 80%;
+    height: 2px;
+    background-color: #507699;
+    color: #507699;
+}

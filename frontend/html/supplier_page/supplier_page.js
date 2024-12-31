@@ -16,7 +16,7 @@ function renderBundles(bundles) {
 
         // Bundle image
         const img = document.createElement("img");
-        img.src = bundle['imageUrl'] || "https://via.placeholder.com/180x100?text=No+Image";
+        img.src = bundle['imageUrl'] || "../../images/others/no_image.png";
         card.appendChild(img);
 
         // Container for details
@@ -82,10 +82,10 @@ function renderBundles(bundles) {
         actionsDiv.className = "actions";
 
         // Delete button
-        const deleteBtn = document.createElement("button");
-        deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
-        deleteBtn.onclick = () => handleDelete(bundle.id);
-        actionsDiv.appendChild(deleteBtn);
+        // const deleteBtn = document.createElement("button");
+        // deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+        // deleteBtn.onclick = () => handleDelete(bundle.id);
+        // actionsDiv.appendChild(deleteBtn);
 
         // Edit button
         const editBtn = document.createElement("button");
@@ -117,31 +117,31 @@ function renderBundles(bundles) {
 }
 
 // DELETE handler
-async function handleDelete(bundleId) {
-    const confirmed = confirm("Are you sure you want to delete this item?");
-    if (!confirmed) return;
-
-    try {
-        const response = await fetch(`http://localhost:8080/api/v1/bundles/delete/${bundleId}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: "Bearer " + token,
-            },
-        });
-
-        if (!response.ok) {
-            alert("Delete failed");
-            return;
-        }
-
-        alert("Bundle deleted successfully");
-        // Re-fetch or remove the card from DOM
-        await fetchBundles();
-    } catch (error) {
-        console.error(error.error);
-        alert("Error deleting bundle");
-    }
-}
+// async function handleDelete(bundleId) {
+//     const confirmed = confirm("Are you sure you want to delete this item?");
+//     if (!confirmed) return;
+//
+//     try {
+//         const response = await fetch(`http://localhost:8080/api/v1/bundles/delete/${bundleId}`, {
+//             method: "DELETE",
+//             headers: {
+//                 Authorization: "Bearer " + token,
+//             },
+//         });
+//
+//         if (!response.ok) {
+//             alert("Delete failed");
+//             return;
+//         }
+//
+//         alert("Bundle deleted successfully");
+//         // Re-fetch or remove the card from DOM
+//         await fetchBundles();
+//     } catch (error) {
+//         console.error(error.error);
+//         alert("Error deleting bundle");
+//     }
+// }
 
 // Toggle Availability
 async function handleToggle(bundleId, newActiveStatus) {
@@ -202,6 +202,9 @@ async function fetchBundles() {
               window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
             return;
         }
+        //get username
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        document.getElementById('username').innerHTML = tokenPayload['user']['username'];
 
         // Show loading state on DONE button
         doneButton.textContent = "Loading...";

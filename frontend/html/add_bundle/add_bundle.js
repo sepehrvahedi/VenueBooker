@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const token = localStorage.getItem("userToken");
     if (!token) {
-      alert("Unauthorized access. Please log in first.");
-      window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
+        alert("Unauthorized access. Please log in first.");
+        window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
         return;
     }
+    //get username
+    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+    document.getElementById('username').innerHTML = tokenPayload['user']['username'];
+
 });
 
 // ----- IMAGE UPLOAD + SPINNER -----
@@ -63,13 +67,17 @@ doneBtn.addEventListener('click', async () => {
     // send [description] or something else you desire
     const productsArray = [description || "DJ"];
 
+    if (name === '' || name === null || name === undefined) {
+        alert('empty inputs not accepted');
+        return;
+    }
     // This token is from your sample; typically you’d get it from localStorage or another secure place
     const token = localStorage.getItem('userToken');
     console.log(token);
     // Prepare request body in JSON
     // Match the sample: name, price, products array
     const requestBody = {
-        name: name || "Sample Bundle",
+        name: name,
         price: price || 1000,
         products: productsArray
     };

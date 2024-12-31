@@ -39,6 +39,7 @@ body {
     padding: 15px;
     border-radius: 25px;
     width: 15%;
+    max-height: 80vh;
 }
 
 .sidebar a {
@@ -47,7 +48,7 @@ body {
     color: #333;
     padding: 12px 15px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1.5rem;
     margin-bottom: 8px;
     border-radius: 12px;
     transition: background-color 0.2s;
@@ -127,7 +128,7 @@ body {
 }
 
 .info-text {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: #333;
 }
 
@@ -141,14 +142,14 @@ body {
     background-color: #ffd7d7;
     padding: 2px 6px;
     border-radius: 10px;
-    font-size: 0.8rem;
+    font-size: 1rem;
 }
 
 /* Make the text appear more prominently next to icons */
 .bundle-name span,
 .bundle-price span,
 .bundle-quantity span {
-    font-size: 0.95rem;
+    font-size: 1.0rem;
     color: #333;
 }
 
@@ -221,6 +222,7 @@ input:checked + .slider:before {
     padding: 15px;
     border-radius: 25px;
     width: 20%;
+    max-height: 80vh;
 }
 
 .search-box, .sort-box {
@@ -230,7 +232,7 @@ input:checked + .slider:before {
 .search-box h3, .sort-box h3 {
     color: #333;
     margin: auto;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
 }
 
 .search-box input,

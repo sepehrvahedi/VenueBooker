@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "../login/loginSupplier.html"; // Redirect to login page if no token
       return;
     }
+    //get username
+    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+    document.getElementById('username').innerHTML = tokenPayload['user']['username'];
 
     // 1. Get the `id` from the URL query string
     const urlParams = new URLSearchParams(window.location.search);

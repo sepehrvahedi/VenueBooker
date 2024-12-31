@@ -35,7 +35,17 @@
         <!-- Sidebar for Search and Sort -->
         <div class="search-sort-sidebar">
             <div class="search-box">
-                <h3>Search</h3>
+                <div class="search-header">
+                    <div>
+                        <img src="../../images/icons/search.png" alt="search icon">
+                    </div>
+                    <div style="margin: auto">
+                        <h3>Search</h3>
+                    </div>
+                </div>
+                <div class="line">
+                    <hr>
+                </div>
                 <label for="searchName">Product Name:</label>
                 <input type="text" id="searchName" placeholder="Name">
                 <label for="minPrice">Minimum Price:</label>
@@ -50,19 +60,28 @@
                     <option value="true">Active</option>
                     <option value="false">Inactive</option>
                 </select>
-                <button id="resetSearch">Reset</button>
             </div>
             <div class="sort-box">
-                <h3>Sort</h3>
+                <div class="sort-header">
+                    <div>
+                        <img src="../../images/icons/sort.png" alt="sort icon">
+                    </div>
+                    <div style="margin: auto">
+                        <h3>Sort</h3>
+                    </div>
+                </div>
+                <div class="line">
+                    <hr>
+                </div>
                 <div class="sort-option">
                     <span>Name</span>
-                    <button data-sort="NAME_ASC" class="sort-button">↑</button>
-                    <button data-sort="NAME_DESC" class="sort-button">↓</button>
+                    <button type="button" data-sort="NAME_ASC" class="sort-button">↑</button>
+                    <button type="button" data-sort="NAME_DESC" class="sort-button">↓</button>
                 </div>
                 <div class="sort-option">
                     <span>Price</span>
-                    <button data-sort="PRICE_ASC" class="sort-button">↑</button>
-                    <button data-sort="PRICE_DESC" class="sort-button">↓</button>
+                    <button type="button" data-sort="PRICE_ASC" class="sort-button">↑</button>
+                    <button type="button" data-sort="PRICE_DESC" class="sort-button">↓</button>
                 </div>
                 <div class="sort-option">
                     <span>Creation Time</span>
@@ -70,7 +89,16 @@
                     <button data-sort="CREATED_DESC" class="sort-button">↓</button>
                 </div>
             </div>
-            <button id="doneButton">DONE</button>
+            <div class="reset-done-buttons">
+                <div class="button-area">
+                    <img src="../../images/icons/trash.png" alt="reset/trash icon">
+                    <button type="button" id="resetSearch">Reset</button>
+                </div>
+                <div class="button-area">
+                    <img src="../../images/icons/done.png" alt="done icon">
+                    <button type="button" id="doneButton">Done</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="supplier_page.js"></script>

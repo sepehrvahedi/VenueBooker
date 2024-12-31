@@ -240,12 +240,12 @@ async function fetchBundles() {
         renderBundles(bundles);
 
         // Reset DONE button state
-        doneButton.textContent = "DONE";
+        doneButton.textContent = "Done";
         doneButton.classList.remove("loading");
     } catch (error) {
         console.error(error.error);
         alert("Error fetching bundles");
-        doneButton.textContent = "DONE";
+        doneButton.textContent = "Done";
         doneButton.classList.remove("loading");
     }
 }

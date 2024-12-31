@@ -6,20 +6,21 @@ body {
 }
 
 .header {
-    background-color: #90caf9;
-    border-radius: 25px;
+    background-color: #8CB0D1;
+    border-radius: 40px;
     padding: 15px 30px;
     margin: 0 0 20px 0;
     display: flex;
     align-items: center;
     gap: 15px;
 }
-
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
     border-radius: 50%;
 }
+
 
 .page-title {
     flex-grow: 1;
@@ -34,10 +35,10 @@ body {
 }
 
 .sidebar {
-    background-color: #90caf9;
+    background-color: #8CB0D1;
     padding: 15px;
     border-radius: 25px;
-    min-width: 200px;
+    width: 15%;
 }
 
 .sidebar a {
@@ -51,15 +52,15 @@ body {
     border-radius: 12px;
     transition: background-color 0.2s;
 }
+.sidebar a:hover {
+    background: #C2DCF4;
+}
 
 .sidebar .fa {
     margin-right: 12px;
     width: 20px;
 }
 
-.sidebar a:hover {
-    background-color: #64b5f6;
-}
 
 .bundles-container {
     display: grid;
@@ -216,10 +217,10 @@ input:checked + .slider:before {
 }
 
 .search-sort-sidebar {
-    background-color: #90caf9;
-    padding: 20px;
+    background-color: #8CB0D1;
+    padding: 15px;
     border-radius: 25px;
-    min-width: 250px;
+    width: 20%;
 }
 
 .search-box, .sort-box {
@@ -228,18 +229,18 @@ input:checked + .slider:before {
 
 .search-box h3, .sort-box h3 {
     color: #333;
-    margin-bottom: 15px;
+    margin: auto;
     font-size: 1.2rem;
 }
 
 .search-box input,
 .search-box select {
-    width: 100%;
+    width: 95%;
     padding: 8px;
-    margin-bottom: 10px;
+    margin: 5px 0;
     border: none;
     border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: #C2DCF4;
 }
 
 .sort-option {
@@ -277,14 +278,16 @@ input:checked + .slider:before {
 
 #doneButton {
     width: 100%;
-    padding: 12px;
-    background-color: #004d00;
-    color: white;
+    padding: 20px;
+    background-color: #C2DCF4;
+    margin: 0 0 0 6px;
+    color: black;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.2s;
+    text-align: right;
 }
 
 #doneButton:hover {
@@ -293,11 +296,58 @@ input:checked + .slider:before {
 
 #resetSearch {
     width: 100%;
-    padding: 8px;
-    margin-top: 10px;
-    background-color: #64b5f6;
-    color: white;
+    text-align: right;
+    padding: 20px;
+    margin: 0 6px 0 0;
+    font-weight: bold;
+    background-color: #C2DCF4;
+    color: black;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+}
+#resetSearch:hover {
+    background-color: lightpink;
+}
+
+.reset-done-buttons {
+    display: flex;
+}
+.reset-done-buttons img {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    margin: 4px 1px 0 1px;
+}
+.button-area {
+    width: 50%;
+    margin: 0 15px
+}
+
+.search-header,
+.sort-header {
+    display: flex;
+}
+
+.search-header div,
+.sort-header div {
+    width: 50%;
+
+}
+
+
+.search-header img,
+.sort-header img{
+    width: 35px;
+    height: 35px;
+    margin-left: 70%;
+}
+
+
+.line hr{
+    margin: 0 auto 5px auto;
+    width: 80%;
+    height: 2px;
+    background-color: #507699;
+    color: #507699;
 }

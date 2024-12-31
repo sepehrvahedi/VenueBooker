@@ -26,8 +26,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
         const result = await response.json();
 
         if (response.ok) {
-            if (result.jwtToken) {
-                localStorage.setItem('userToken', result.jwtToken);
+            if (result['jwtToken']) {
+                localStorage.setItem('userToken', result['jwtToken']);
 
                 // Clear the form and errors
                 document.getElementById("login-form").reset();

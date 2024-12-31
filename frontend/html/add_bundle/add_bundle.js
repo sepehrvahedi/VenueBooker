@@ -92,9 +92,13 @@ doneBtn.addEventListener('click', async () => {
 
     const responseData = await response.json();
     alert("Data posted successfully!");
-    // window.location.href = '../supplier_page/supplier_page.html';
+
+    setTimeout(() => {
+        window.location.href = '../supplier_page/supplier_page.html';
+    }, 1000); // 1 second "upload" delay
+
     } catch (err) {
-    console.error(err);
+    console.error(err.error);
     alert("An error occurred while sending data.");
     }
 });

@@ -85,15 +85,7 @@ document.getElementById("register-form").addEventListener("submit", async functi
 
 // Function to handle validation errors
 function handleValidationErrors(result) {
-    const errorMessages = [];
-
     if (typeof result === 'object') {
-        // Check for an error field
-        if (result.error) {
-            errorMessages.push(result.error);
-            redirectToErrorPage(errorMessages);
-            return;
-        }
 
         Object.entries(result).forEach(([field, messages]) => {
             if (Array.isArray(messages)) {

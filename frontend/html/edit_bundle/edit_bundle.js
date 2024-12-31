@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector(".image-upload p").style.display = "none";
       }
     } catch (error) {
-      console.error("Error fetching bundles:", error);
+      console.error("Error fetching bundles:", error.error);
       alert("An error occurred while fetching bundle data.");
     }
   });
@@ -150,6 +150,6 @@ doneBtn.addEventListener('click', async () => {
     window.location.href = '../supplier_page/supplier_page.html';
   } catch (err) {
     console.error(err);
-    alert("An error occurred while sending data.");
+    alert("An error occurred while sending data: " + error.error);
   }
 });

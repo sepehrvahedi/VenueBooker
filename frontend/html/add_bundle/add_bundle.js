@@ -107,6 +107,6 @@ doneBtn.addEventListener('click', async () => {
 
     } catch (err) {
     console.error(err.error);
-    alert("An error occurred while sending data.");
+    alert("An error occurred while sending data: " + err.error);
     }
 });

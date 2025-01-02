@@ -44,13 +44,7 @@
           <img id="previewImage" alt="Uploaded"  src=""/>
         </div>
 
-        <!-- We hide the file input, will click() it via JavaScript -->
-        <input
-          type="file"
-          id="fileInput"
-          accept="image/*"
-          style="display: none"
-        />
+        <input type="file" id="fileInput" accept="image/*" style="display: none" />
 
         <!-- Product name -->
         <div class="input-group">
@@ -72,11 +66,13 @@
           <span class="icon"><i class="fas fa-calculator"></i></span>
         </div> -->
 
-        <!-- Description -->
+        <!-- Tags -->
         <div class="input-group">
-          <label for="productDescription">Product Tags:</label>
-          <input type="text" id="productDescription" placeholder="Tags (like DJ, etc.)" />
-          <span class="icon"><i class="fas fa-tag"></i></span>
+          <label>Product Tags:</label>
+          <div id="productTags">
+            <label><input type="checkbox" value="DJ" /> DJ</label>
+            <label><input type="checkbox" value="FLOWERS" /> FLOWERS</label>
+          </div>
         </div>
 
         <!-- Submit button -->

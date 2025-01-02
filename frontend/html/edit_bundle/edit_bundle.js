@@ -43,7 +43,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       // 4. Populate the fields with the bundle's data
       document.getElementById("productName").value = bundle.name;
       document.getElementById("productPrice").value = bundle.price;
-      document.getElementById("productDescription").value = bundle.products.join(", ");
+
+      // Pre-select the checkboxes based on the products array
+      const selectedTags = bundle.products || []; // Assuming `products` is the array of tags
+      const checkboxes = document.querySelectorAll('#productTags input[type="checkbox"]');
+
+      checkboxes.forEach((checkbox) => {
+        if (selectedTags.includes(checkbox.value)) {
+          checkbox.checked = true; // Check the checkbox if its value is in the selectedTags array
+        }
+      });
 
       // Optionally, you could add logic to pre-populate the image if your bundle data includes an image URL.
       // For example:
@@ -55,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector(".image-upload p").style.display = "none";
       }
     } catch (error) {
-      console.error("Error fetching bundles:", error.error);
+      console.error("Error fetching bundles:", error);
       alert("An error occurred while fetching bundle data.");
     }
   });
@@ -112,11 +121,23 @@ doneBtn.addEventListener('click', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const bundleId = urlParams.get("id");
     const price = parseFloat(document.getElementById('productPrice').value);
-    const description = document.getElementById('productDescription').value.trim();
+    const selectedTags = [];
 
-    // A placeholder array of products: your API expects ["DJ"], but let's
-    // send [description] or something else you desire
-    const productsArray = [description || "DJ"];
+
+    // A placeholder array of product tags
+    const checkboxes = document.querySelectorAll('#productTags input[type="checkbox"]:checked');
+    checkboxes.forEach((checkbox) => {
+      selectedTags.push(checkbox.value);
+    });
+
+    if (price === 0) {
+      alert('empty price input not accepted')
+      return;
+    }
+    if (selectedTags.length === 0) {
+      alert('you must choose at least one tag.')
+      return;
+    }
 
     // This token is from your sample; typically you’d get it from localStorage or another secure place
     const token = localStorage.getItem('userToken');
@@ -125,8 +146,8 @@ doneBtn.addEventListener('click', async () => {
     // Match the sample: name, price, products array
     const requestBody = {
       ids: [bundleId],
-      price: price || 1000,
-      products: productsArray
+      price: price,
+      products: selectedTags
     };
 
     // Make the PUT request
@@ -150,6 +171,6 @@ doneBtn.addEventListener('click', async () => {
     window.location.href = '../supplier_page/supplier_page.html';
   } catch (err) {
     console.error(err);
-    alert("An error occurred while sending data: " + error.error);
+    alert("An error occurred while sending data: " + err.error);
   }
 });

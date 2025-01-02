@@ -61,25 +61,35 @@ doneBtn.addEventListener('click', async () => {
     // Gather form data
     const name = document.getElementById('productName').value.trim();
     const price = parseFloat(document.getElementById('productPrice').value);
-    const description = document.getElementById('productDescription').value.trim();
+    const selectedTags = [];
 
-    // A placeholder array of products: your API expects ["DJ"], but let's
-    // send [description] or something else you desire
-    const productsArray = [description || "DJ"];
+    // A placeholder array of product tags
+    const checkboxes = document.querySelectorAll('#productTags input[type="checkbox"]:checked');
+    checkboxes.forEach((checkbox) => {
+      selectedTags.push(checkbox.value);
+    });
 
     if (name === '' || name === null || name === undefined) {
-        alert('empty inputs not accepted');
+        alert('empty name inputs not accepted');
+        return;
+    }
+    if (price === 0) {
+        alert('empty price input not accepted')
+        return;
+    }
+    if (selectedTags.length === 0) {
+        alert('you must choose at least one tag.')
         return;
     }
     // This token is from your sample; typically you’d get it from localStorage or another secure place
     const token = localStorage.getItem('userToken');
     console.log(token);
     // Prepare request body in JSON
-    // Match the sample: name, price, products array
+    // Match the sample: name, price, tags
     const requestBody = {
         name: name,
         price: price || 1000,
-        products: productsArray
+        products: selectedTags
     };
 
     // Make the POST request

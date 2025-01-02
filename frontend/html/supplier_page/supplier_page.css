@@ -222,7 +222,8 @@ input:checked + .slider:before {
     padding: 15px;
     border-radius: 25px;
     width: 20%;
-    max-height: 80vh;
+
+    max-height: 90vh;
 }
 
 .search-box, .sort-box {

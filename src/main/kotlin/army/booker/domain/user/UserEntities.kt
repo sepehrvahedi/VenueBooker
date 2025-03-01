@@ -10,7 +10,7 @@ import java.time.Instant
 @Document(collection = "users")
 data class User(
   @Id var id: String? = null,
-  @Indexed val username: String,
+  @Indexed(unique = true) val username: String,
   val hashedPassword: String,
   val role: Role,
   val name: String,

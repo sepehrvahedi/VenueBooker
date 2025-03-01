@@ -1,6 +1,7 @@
 package army.booker.domain.bundle.services
 
 import army.booker.domain.bundle.Bundle
+import army.booker.domain.bundle.DailyReservation
 import army.booker.domain.bundle.ProductSorting
 import army.booker.domain.bundle.ProductType
 import army.booker.domain.bundle.repositories.BundleRepository
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.switchIfEmpty
+import java.time.LocalDate
 
 @Service
 class BundleServiceImpl(
@@ -94,9 +96,11 @@ class BundleServiceImpl(
     active: Boolean?,
     products: List<ProductType>?,
     sorting: ProductSorting?,
-    ownerId: String,
+    ownerId: String?,
   ): Flux<Bundle> {
-    val criteria = Criteria.where("ownerId").`is`(ownerId)
+    val criteria = Criteria()
+
+    ownerId?.let { criteria.and("ownerId").`is`(ownerId) }
 
     name?.let {
       criteria.and("name").regex(".*$it.*", "i")
@@ -132,6 +136,64 @@ class BundleServiceImpl(
     }
 
     query.with(sort)
+
+    return mongoTemplate.find(query, Bundle::class.java)
+  }
+
+  override fun reserveBundle(
+    bundleId: String,
+    userId: String,
+    userName: String,
+    reservationDate: LocalDate
+  ): Mono<Bundle> {
+    return bundleRepository.findById(bundleId)
+      .flatMap { bundle ->
+        if (!bundle.active) {
+          return@flatMap Mono.error(IllegalArgumentException("Bundle is not active"))
+        }
+
+        val isAlreadyReserved = bundle.reservations.any { it.reservationDate == reservationDate }
+        if (isAlreadyReserved) {
+          return@flatMap Mono.error(IllegalArgumentException("Bundle is already reserved for $reservationDate"))
+        }
+
+        val newReservation = DailyReservation(
+          userId = userId,
+          userName = userName,
+          reservationDate = reservationDate
+        )
+
+        val updatedReservations = bundle.reservations + newReservation
+
+        // Using findAndModify to atomically update with version check
+        val query = Query(Criteria.where("_id").`is`(bundleId).and("version").`is`(bundle.version))
+        val update = Update()
+          .set("reservations", updatedReservations)
+          .inc("version", 1)
+
+        mongoTemplate.findAndModify(query, update, Bundle::class.java)
+          .switchIfEmpty {
+            Mono.error(
+              ConcurrentModificationException("Bundle was modified by another transaction. Please try again.")
+            )
+          }
+      }
+      .switchIfEmpty(
+        Mono.error(IllegalArgumentException("Bundle not found"))
+      )
+      .retry(3) // Retry up to 3 times if concurrent modification occurs
+      .onErrorResume(ConcurrentModificationException::class.java) {
+        Mono.error(IllegalArgumentException("Could not reserve bundle due to concurrent access. Please try again."))
+      }
+  }
+
+  override fun findUserReservations(userId: String): Flux<Bundle> {
+    val criteria = Criteria.where("reservations").elemMatch(
+      Criteria.where("userId").`is`(userId)
+    )
+
+    val query = Query(criteria)
+    query.with(Sort.by(Sort.Direction.DESC, "createdAt"))
 
     return mongoTemplate.find(query, Bundle::class.java)
   }

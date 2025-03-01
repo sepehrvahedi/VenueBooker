@@ -185,6 +185,7 @@ class BundleController(
     name = this.name,
     price = this.price,
     products = this.products,
-    active = this.active
+    active = this.active,
+    reservations = this.reservations,
   )
 }

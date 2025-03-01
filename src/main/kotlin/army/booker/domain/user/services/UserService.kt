@@ -15,4 +15,5 @@ interface UserService {
     nationalNumber: String,
     phone: String,
   ): Mono<User>
+  fun findUserByUsername(username: String): Mono<User>
 }

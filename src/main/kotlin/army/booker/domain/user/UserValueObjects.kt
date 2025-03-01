@@ -11,5 +11,6 @@ data class UserTokenPayload(
 enum class Role(val roleName: String) {
   Supplier("SUPPLIER"),
   Customer("CUSTOMER"),
+  Admin("ADMIN"),
   ;
 }

@@ -57,4 +57,8 @@ class UserServiceImpl(
           IllegalArgumentException("Invalid credentials")
         )
       )
+
+  override fun findUserByUsername(username: String): Mono<User> =
+    userRepository.findByUsername(username)
+
 }

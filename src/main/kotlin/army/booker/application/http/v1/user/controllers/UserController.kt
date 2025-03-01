@@ -1,23 +1,19 @@
 package army.booker.application.http.v1.user.controllers
 
-import army.booker.application.http.v1.user.CreateUserRequest
-import army.booker.application.http.v1.user.CreateUserResponse
-import army.booker.application.http.v1.user.LoginRequest
-import army.booker.application.http.v1.user.LoginResponse
+import army.booker.application.http.v1.user.*
 import army.booker.application.http.v1.user.mappers.HttpV1UserMapper
+import army.booker.domain.user.Role
 import army.booker.domain.user.User
 import army.booker.domain.user.UserTokenPayload
 import army.booker.domain.user.services.UserService
+import army.booker.infrastructure.token.TokenAuthenticationInterceptor
+import army.booker.infrastructure.token.TokenAuthenticationInterceptor.Companion.AUTHORIZATION_HEADER
 import army.booker.infrastructure.token.services.TokenService
 import jakarta.validation.Valid
 import org.slf4j.Logger
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.CrossOrigin
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
 @RestController
@@ -32,6 +28,7 @@ class UserController(
   private val logger: Logger,
   private val userService: UserService,
   private val tokenService: TokenService,
+  private val tokenAuthenticationInterceptor: TokenAuthenticationInterceptor,
 ) {
   companion object {
     private const val THREE_HOURS_IN_SECONDS = 3 * 60 * 60L
@@ -91,6 +88,77 @@ class UserController(
         )
       }
     }
+
+  @PostMapping("/admin/login")
+  fun adminLogin(@Valid @RequestBody request: LoginRequest): Mono<ResponseEntity<LoginResponse>> =
+    if (request.username == "admin" && request.password == "admin") {
+      userService.authenticateUser(
+        username = "admin",
+        password = "admin",
+        role = Role.Admin
+      ).map { user ->
+        val jwtToken = createJwtToken(user)
+        logger.info("Successfully authenticated admin")
+        ResponseEntity.ok(LoginResponse(jwtToken))
+      }
+    } else {
+      Mono.just(ResponseEntity.badRequest().body(LoginResponse(error = "Invalid admin credentials")))
+    }.onErrorResume { error ->
+      logger.error("Failed to authenticate admin", error)
+      Mono.just(
+        ResponseEntity.internalServerError().body(LoginResponse(error = "Internal server error"))
+      )
+    }
+
+  @PostMapping("/admin/shadow")
+  fun adminShadowUser(
+    @Valid @RequestBody request: AdminShadowUserRequest,
+    @RequestHeader(AUTHORIZATION_HEADER) authHeader: String?
+  ): Mono<ResponseEntity<AdminShadowUserResponse>> =
+    tokenAuthenticationInterceptor.extractAndValidateToken(authHeader)
+      .flatMap { tokenPayload ->
+        // Verify admin role
+        if (tokenPayload.role != Role.Admin) {
+          return@flatMap Mono.just(
+            ResponseEntity.status(HttpStatus.FORBIDDEN).body(
+              AdminShadowUserResponse(valid = false, error = "Unauthorized access")
+            )
+          )
+        }
+
+        userService.findUserByUsername(request.username)
+          .map { user ->
+            // Create a shadow token for the user
+            val shadowToken = createJwtToken(user)
+
+            ResponseEntity.ok(
+              AdminShadowUserResponse(
+                valid = true,
+                role = user.role.roleName,
+                userId = user.id,
+                token = shadowToken
+              )
+            )
+          }
+          .switchIfEmpty(
+            Mono.just(
+              ResponseEntity.ok(
+                AdminShadowUserResponse(
+                  valid = false,
+                  error = "User not found"
+                )
+              )
+            )
+          )
+      }
+      .onErrorResume { error ->
+        logger.error("Failed to shadow user: ${request.username}", error)
+        Mono.just(
+          ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
+            AdminShadowUserResponse(valid = false, error = "Internal server error")
+          )
+        )
+      }
 
   private fun createJwtToken(user: User): String =
     tokenService.createJwt(

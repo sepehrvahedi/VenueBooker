@@ -7,6 +7,7 @@ object HttpV1UserMapper {
     fun fromString(role: String): Role = when (role) {
       "SUPPLIER" -> Role.Supplier
       "CUSTOMER" -> Role.Customer
+      "ADMIN" -> Role.Admin
       else -> error("Contact type is not valid")
     }
   }

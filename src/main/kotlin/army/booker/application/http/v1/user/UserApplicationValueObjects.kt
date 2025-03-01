@@ -51,3 +51,15 @@ data class LoginResponse(
   val jwtToken: String? = null,
   val error: String? = null,
 )
+
+data class AdminShadowUserRequest(
+  val username: String
+)
+
+data class AdminShadowUserResponse(
+  val valid: Boolean,
+  val role: String? = null,
+  val userId: String? = null,
+  val token: String? = null,
+  val error: String? = null
+)

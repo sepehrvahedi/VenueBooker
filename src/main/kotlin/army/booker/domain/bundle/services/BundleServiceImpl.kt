@@ -196,5 +196,10 @@ class BundleServiceImpl(
     query.with(Sort.by(Sort.Direction.DESC, "createdAt"))
 
     return mongoTemplate.find(query, Bundle::class.java)
+      .map { bundle ->
+        bundle.copy(
+          reservations = bundle.reservations.filter { it.userId == userId }
+        )
+      }
   }
 }

@@ -200,7 +200,7 @@ async function reserveBundle(bundleId, date) {
         }
 
         const result = await response.json();
-        alert("Bundle reserved successfully! Reservation ID: " + result.reservationId);
+        alert("Bundle reserved successfully! Reservation product name: " + result.name);
         modal.style.display = "none";
         fetchBundles(); // Refresh bundles to reflect reservation status if needed
     } catch (error) {

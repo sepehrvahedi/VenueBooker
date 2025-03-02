@@ -19,7 +19,11 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a href="#" onclick="alert('You have successfully logged out!'); window.location.href = '../../html/login/loginCustomer.html';">
+        <a href="./reservations.html">
+            <i class="fas fa-calendar-check"></i>
+            Reservations
+        </a>
+        <a href="#" onclick="alert('You have successfully logged out!'); window.location.href = '../logout/logout.html';">
             <i class="fas fa-sign-out-alt"></i>
             Log out
         </a>
@@ -111,7 +115,7 @@
         <button id="reserveButton" class="reserve-btn">Reserve</button>
         <div id="date-selection" class="date-selection" style="display: none;">
             <label for="reserveDate">Reserve for Date:</label>
-            <input type="date" id="reserveDate" name="reserveDate" placeholder="YYYY-MM-DD">
+            <input type="datetime-local" id="reserveDate" name="reserveDate" placeholder="YYYY-MM-DDThh:mm">
             <button id="okButton" class="ok-btn" disabled>OK</button>
             <button id="closeDateButton" class="close-btn">Close</button>
         </div>

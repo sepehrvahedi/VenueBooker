@@ -1,3 +1,4 @@
+const token = localStorage.getItem("userToken");
 const bundlesContainer = document.getElementById("bundlesContainer");
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modal-image");
@@ -13,8 +14,7 @@ const okButton = document.getElementById("okButton");
 const closeDateButton = document.getElementById("closeDateButton");
 const closeModalBtn = document.getElementsByClassName("close")[0];
 let currentBundle = null;
-const base_url = 'http://localhost:8080/api/v1/customer/bundles'
-
+const base_url = 'http://localhost:8080/api/v1/customer/bundles';
 
 window.addEventListener("DOMContentLoaded", fetchBundles);
 
@@ -44,8 +44,15 @@ function renderBundles(bundles) {
         card.className = "bundle-card";
         card.addEventListener("click", () => openModal(bundle));
 
+        // Fetch random image
         const img = document.createElement("img");
-        img.src = bundle['imageUrl'] || "../../images/others/no_image.png";
+        fetchRandomImage().then(imageUrl => {
+            img.src = imageUrl || bundle['imageUrl'] || "../../images/others/no_image.png";
+        }).catch(error => {
+            console.error("Error fetching random image:", error);
+            img.src = bundle['imageUrl'] || "../../images/others/no_image.png"; // Fallback
+        });
+
         card.appendChild(img);
 
         const detailsDiv = document.createElement("div");
@@ -107,9 +114,22 @@ function renderBundles(bundles) {
     });
 }
 
+// Function to fetch random image from api-ninjas
+async function fetchRandomImage() {
+    try {
+        const response = await fetch("https://random-image-pepebigotes.vercel.app/api/random-image");
+        if (!response.ok) throw new Error("Failed to fetch random image");
+        const data = await response.json();
+        return data.url; // Returns the image URL
+    } catch (error) {
+        console.error("Error fetching random image:", error);
+        return null; // Return null on failure
+    }
+}
+
 function openModal(bundle) {
     currentBundle = bundle;
-    modalImage.src = bundle['imageUrl'] || "../../images/others/no_image.png";
+    modalImage.src = bundle['imageUrl'] || "../../images/others/no_image.png"; // Use bundle image or fallback
     modalTitle.textContent = bundle.name;
     modalPrice.textContent = `$${bundle.price}`;
     modalTags.textContent = (bundle.products || []).join(", ");

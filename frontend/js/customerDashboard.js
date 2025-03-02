@@ -46,12 +46,7 @@ function renderBundles(bundles) {
 
         // Fetch random image
         const img = document.createElement("img");
-        fetchRandomImage().then(imageUrl => {
-            img.src = imageUrl || bundle['imageUrl'] || "../../images/others/no_image.png";
-        }).catch(error => {
-            console.error("Error fetching random image:", error);
-            img.src = bundle['imageUrl'] || "../../images/others/no_image.png"; // Fallback
-        });
+        img.src = bundle['imageUrl'] || "../../images/others/no_image.png";
 
         card.appendChild(img);
 
@@ -114,18 +109,6 @@ function renderBundles(bundles) {
     });
 }
 
-// Function to fetch random image from api-ninjas
-async function fetchRandomImage() {
-    try {
-        const response = await fetch("https://random-image-pepebigotes.vercel.app/api/random-image");
-        if (!response.ok) throw new Error("Failed to fetch random image");
-        const data = await response.json();
-        return data.url; // Returns the image URL
-    } catch (error) {
-        console.error("Error fetching random image:", error);
-        return null; // Return null on failure
-    }
-}
 
 function openModal(bundle) {
     currentBundle = bundle;

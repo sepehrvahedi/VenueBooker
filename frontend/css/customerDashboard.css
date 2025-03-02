@@ -1,0 +1,647 @@
+body {
+    background: linear-gradient(to right, #FFA500, #FFDAB9); /* Orange to light peach gradient */
+    font-family: system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.header {
+    background-color: #FF9999; /* Light pink/salmon for header */
+    border-radius: 40px;
+    padding: 15px 30px;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.page-title {
+    flex-grow: 1;
+    text-align: right;
+    font-size: 1.5rem;
+    color: #000000; /* Black text */
+}
+
+.container {
+    display: flex;
+    gap: 20px;
+    min-height: calc(100vh - 100px);
+}
+
+.sidebar {
+    background-color: #FF9999; /* Light pink/salmon for sidebar */
+    padding: 15px;
+    border-radius: 25px;
+    width: 15%;
+    max-height: 80vh;
+    flex-shrink: 0;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    color: #000000; /* Black text */
+    padding: 12px 15px;
+    text-decoration: none;
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+
+.sidebar a:hover {
+    background: #FFB6C1; /* Slightly lighter pink on hover */
+}
+
+.sidebar .fa {
+    margin-right: 12px;
+    width: 20px;
+}
+
+.bundles-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-height: 100%;
+    align-content: start;
+    flex-grow: 1;
+}
+
+.bundle-card {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink for bundle cards */
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 200px;
+    height: auto;
+    min-height: 0;
+    cursor: pointer; /* Indicates clickable */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.bundle-card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.bundle-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.bundle-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.info-section {
+    background-color: #F0F0F0; /* Light gray for info sections */
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.description-section {
+    background-color: #F0F0F0; /* Light gray for description section */
+    border-radius: 8px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 60px; /* Fixed height */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds ellipsis for truncated text */
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.info-icon {
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.name-section .info-icon {
+    background-image: url('../images/icons/name-tag.png');
+}
+
+.price-section .info-icon {
+    background-image: url('../images/icons/price-tag.png');
+}
+
+.tags-section .info-icon {
+    background-image: url('../images/icons/tags.png');
+}
+
+.description-section .info-icon {
+    background-image: url('../images/icons/description.png'); /* Add a description icon if available */
+}
+
+.info-text {
+    font-size: 1rem;
+    color: #000000; /* Black text */
+    flex-grow: 1;
+    overflow: hidden; /* Ensures text is truncated */
+    text-overflow: ellipsis; /* Adds ellipsis */
+    white-space: nowrap; /* Prevents wrapping */
+}
+
+.tags-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+    max-width: 100%;
+}
+
+.tag-item {
+    background-color: rgba(234, 173, 173, 1); /* Soft pinkish tone for tags */
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+/* Make the text appear more prominently next to icons */
+.bundle-name span,
+.bundle-price span,
+.bundle-quantity span {
+    font-size: 1.0rem;
+    color: #000000; /* Black text */
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.actions button {
+    background-color: #FF4040; /* Reddish-pink for buttons */
+    border: none;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+.search-sort-sidebar {
+    background-color: rgba(255, 193, 193, 1); /* Light pinkish-red for search sidebar */
+    padding: 15px;
+    border-radius: 25px;
+    width: 20%;
+    max-height: 90vh;
+    flex-shrink: 0;
+}
+
+.search-box, .sort-box {
+    margin-bottom: 20px;
+}
+
+.search-box h3, .sort-box h3 {
+    color: #000000; /* Black text */
+    margin: auto;
+    font-size: 1.3rem;
+}
+
+.search-box input,
+.search-box select {
+    width: 95%;
+    padding: 8px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 140, 140, 1); /* Brighter pinkish-red for inputs/select */
+    color: #000000; /* Black text */
+}
+
+.sort-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.sort-option span {
+    flex: 1;
+    color: #000000; /* Black text */
+}
+
+.sort-button {
+    width: 30px;
+    height: 30px;
+    background: rgba(255, 140, 140, 1); /* Brighter pinkish-red for sort buttons */
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.sort-button:hover {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink on hover */
+    color: #FFFFFF; /* White text on hover */
+}
+
+.sort-button.active {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink when active */
+    color: #FFFFFF; /* White text when active */
+}
+
+#doneButton {
+    width: 100%;
+    padding: 20px;
+    background-color: rgba(255, 140, 140, 1); /* Brighter pinkish-red for done button */
+    margin: 0 0 0 6px;
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+    text-align: right;
+}
+
+#doneButton:hover {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink on hover */
+}
+
+.reserve-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: rgba(255, 140, 140, 1); /* Brighter pinkish-red */
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.reserve-btn:hover {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink on hover */
+}
+
+.reserve-btn:disabled {
+    background-color: #D3D3D3; /* Gray when disabled */
+    cursor: not-allowed;
+}
+
+.ok-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: rgba(255, 140, 140, 1); /* Brighter pinkish-red */
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.ok-btn:hover {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink on hover */
+}
+
+.ok-btn:disabled {
+    background-color: #D3D3D3; /* Gray when disabled */
+    cursor: not-allowed;
+}
+
+.close-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #FF9999; /* Light pink/salmon */
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.close-btn:hover {
+    background-color: #FFB6C1; /* Slightly lighter pink on hover */
+}
+
+#resetSearch {
+    width: 100%;
+    text-align: right;
+    padding: 20px;
+    margin: 0 6px 0 0;
+    font-weight: bold;
+    background-color: rgba(255, 140, 140, 1); /* Brighter pinkish-red for reset button */
+    color: #000000; /* Black text */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#resetSearch:hover {
+    background-color: rgba(221, 43, 107, 1); /* Deep reddish-pink on hover */
+}
+
+.reset-done-buttons {
+    display: flex;
+}
+
+.reset-done-buttons img {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    margin: 4px 1px 0 1px;
+}
+
+.button-area {
+    width: 50%;
+    margin: 0 15px;
+}
+
+.search-header,
+.sort-header {
+    display: flex;
+}
+
+.search-header div,
+.sort-header div {
+    width: 50%;
+}
+
+.search-header img,
+.sort-header img {
+    width: 35px;
+    height: 35px;
+    margin-left: 70%;
+}
+
+.line hr {
+    margin: 0 auto 5px auto;
+    width: 80%;
+    height: 2px;
+    background-color: #000000; /* Black line */
+    color: #000000;
+}
+
+/* Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+.modal-content {
+    background-color: #F0F0F0; /* Light gray */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the overall column */
+}
+
+.close {
+    color: #000000;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001; /* Ensure it’s above other content */
+}
+
+.close:hover,
+.close:focus {
+    color: #FF4040;
+    text-decoration: none;
+}
+
+.modal-image {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    align-self: center; /* Ensures the image is centered */
+}
+
+#modal-title {
+    text-align: center; /* Centers the title text */
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.modal-content p {
+    margin: 5px 0;
+    text-align: left; /* Left-aligns all paragraph content */
+    width: 100%; /* Ensures full width for left alignment */
+}
+
+#reserveDate {
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 200px;
+    display: block; /* Hidden initially */
+}
+
+.date-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.close-btn, .ok-btn {
+    margin-top: 5px;
+    width: 100%;
+    max-width: 200px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 20%;
+    }
+
+    .bundles-container {
+        width: 60%;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .search-sort-sidebar {
+        width: 20%;
+    }
+
+    .bundle-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .avatar {
+        margin: 0 auto 10px;
+    }
+
+    .page-title {
+        text-align: center;
+    }
+
+    .sidebar a {
+        font-size: 1.2rem;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar, .bundles-container {
+        width: 100%;
+    }
+
+    .search-sort-sidebar {
+        width: 100%;
+        order: 3;
+    }
+
+    .bundle-card {
+        max-width: 100%;
+    }
+
+    .search-box input, .search-box select {
+        width: 90%;
+    }
+
+    .reset-done-buttons {
+        flex-direction: column;
+    }
+
+    .button-area {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .sidebar a {
+        font-size: 1rem;
+    }
+
+    .bundles-container {
+        grid-template-columns: 1fr;
+    }
+
+    .search-header img, .sort-header img {
+        margin-left: 50%;
+    }
+
+    .bundle-card {
+        width: 100%;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        width: 90%;
+    }
+
+    .modal-image {
+        max-width: 100%;
+    }
+}

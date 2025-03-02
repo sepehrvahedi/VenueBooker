@@ -188,6 +188,7 @@ class BundleServiceImpl(
   }
 
   override fun findUserReservations(userId: String): Flux<Bundle> {
+    // First, find bundles that have at least one reservation for this user
     val criteria = Criteria.where("reservations").elemMatch(
       Criteria.where("userId").`is`(userId)
     )
@@ -195,6 +196,17 @@ class BundleServiceImpl(
     val query = Query(criteria)
     query.with(Sort.by(Sort.Direction.DESC, "createdAt"))
 
+    // After finding the bundles, filter their reservations
     return mongoTemplate.find(query, Bundle::class.java)
+      .map { bundle ->
+        // Create a new Bundle with only the user's reservations
+        val filteredReservations = bundle.reservations.filter { reservation ->
+          reservation.userId == userId
+        }
+
+        // Return a copy of the bundle with filtered reservations
+        bundle.copy(reservations = filteredReservations)
+      }
   }
+
 }

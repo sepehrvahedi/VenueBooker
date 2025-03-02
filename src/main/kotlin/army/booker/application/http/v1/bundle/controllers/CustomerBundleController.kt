@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
+import java.time.LocalDate
 
 @RestController
 @RequestMapping("/api/v1/customer/bundles")
@@ -82,7 +83,7 @@ class CustomerBundleController(
           bundleId = request.bundleId,
           userId = userPayload.id,
           userName = userName,
-          reservationDate = request.reservationDate
+          reservationDate = LocalDate.parse(request.reservationDate),
         )
       }
       .map { bundle ->

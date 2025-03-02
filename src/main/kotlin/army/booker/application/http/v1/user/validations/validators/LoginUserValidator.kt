@@ -53,14 +53,14 @@ class LoginUserValidator :
         isValid = false
       }
 
-      value.password.length < 8 -> {
+      value.username != "admin" && value.password.length < 8 -> {
         context.buildConstraintViolationWithTemplate("Password must be at least 8 characters long")
           .addPropertyNode("password")
           .addConstraintViolation()
         isValid = false
       }
 
-      value.password.length > 100 -> {
+      value.username != "admin" && value.password.length > 100 -> {
         context.buildConstraintViolationWithTemplate("Password cannot be longer than 100 characters")
           .addPropertyNode("password")
           .addConstraintViolation()
@@ -72,12 +72,13 @@ class LoginUserValidator :
     when (value.role) {
       "SUPPLIER",
       "CUSTOMER",
+      "ADMIN",
       -> {
         // Valid roles, do nothing
       }
 
       else -> {
-        context.buildConstraintViolationWithTemplate("Role must be either SUPPLIER or CUSTOMER")
+        context.buildConstraintViolationWithTemplate("Role must be either SUPPLIER or CUSTOMER or ADMIN")
           .addPropertyNode("role")
           .addConstraintViolation()
         isValid = false

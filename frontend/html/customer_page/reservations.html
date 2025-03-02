@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reservations</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="../../css/reservations.css">
+</head>
+<body>
+<div class="header">
+    <img src="../../images/customer_login_page/home.png" alt="avatar picture" class="avatar">
+    <strong><span id="username"></span></strong>
+    <h1 class="page-title">Customer Reservations</h1>
+</div>
+<div class="container">
+    <div class="sidebar">
+        <a href="./customerDashboard.html">
+            <i class="fas fa-home"></i>
+            Home
+        </a>
+        <a href="#" id="reservationsButton">
+            <i class="fas fa-calendar-check"></i>
+            Reservations
+        </a>
+        <a href="#" onclick="alert('You have successfully logged out!'); window.location.href = '../../html/login/loginCustomer.html';">
+            <i class="fas fa-sign-out-alt"></i>
+            Log out
+        </a>
+    </div>
+
+    <!-- Reservations container -->
+    <div class="reservations-container" id="reservationsContainer"></div>
+</div>
+
+<script src="../../js/reservations.js"></script>
+</body>
+</html>

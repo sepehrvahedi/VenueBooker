@@ -12,26 +12,16 @@ function closeModal() {
     // No modal in this page, placeholder
 }
 
-function renderReservations(reservations) {
+function renderReservations(bundles) {
     reservationsContainer.innerHTML = "";
 
-    reservations.forEach((reservation) => {
+    bundles.forEach((bundle) => {
         const card = document.createElement("div");
         card.className = "reservation-card";
 
-        const detailsDiv = document.createElement("div");
-        detailsDiv.className = "reservation-details";
-
-        const idSection = document.createElement("div");
-        idSection.className = "info-section id-section";
-        const idIcon = document.createElement("div");
-        idIcon.className = "info-icon";
-        const idText = document.createElement("div");
-        idText.className = "info-text";
-        idText.textContent = `ID: ${reservation.reservationId}`;
-        idSection.appendChild(idIcon);
-        idSection.appendChild(idText);
-        detailsDiv.appendChild(idSection);
+        // Bundle details
+        const bundleDetails = document.createElement("div");
+        bundleDetails.className = "bundle-details";
 
         const nameSection = document.createElement("div");
         nameSection.className = "info-section name-section";
@@ -39,21 +29,37 @@ function renderReservations(reservations) {
         nameIcon.className = "info-icon";
         const nameText = document.createElement("div");
         nameText.className = "info-text";
-        nameText.textContent = `Bundle: ${reservation.bundleName}`;
+        nameText.textContent = `Bundle: ${bundle.name}`;
         nameSection.appendChild(nameIcon);
         nameSection.appendChild(nameText);
-        detailsDiv.appendChild(nameSection);
+        bundleDetails.appendChild(nameSection);
 
-        const dateSection = document.createElement("div");
-        dateSection.className = "info-section date-section";
-        const dateIcon = document.createElement("div");
-        dateIcon.className = "info-icon";
-        const dateText = document.createElement("div");
-        dateText.className = "info-text";
-        dateText.textContent = `Date: ${reservation.reservationDate}`;
-        dateSection.appendChild(dateIcon);
-        dateSection.appendChild(dateText);
-        detailsDiv.appendChild(dateSection);
+        const priceSection = document.createElement("div");
+        priceSection.className = "info-section price-section";
+        const priceIcon = document.createElement("div");
+        priceIcon.className = "info-icon";
+        const priceText = document.createElement("div");
+        priceText.className = "info-text";
+        priceText.textContent = `Price: $${bundle.price}`;
+        priceSection.appendChild(priceIcon);
+        priceSection.appendChild(priceText);
+        bundleDetails.appendChild(priceSection);
+
+        const productsSection = document.createElement("div");
+        productsSection.className = "info-section tags-section";
+        const productsIcon = document.createElement("div");
+        productsIcon.className = "info-icon";
+        const productsContent = document.createElement("div");
+        productsContent.className = "tags-content";
+        (bundle.products || []).forEach((product) => {
+            const productSpan = document.createElement("span");
+            productSpan.className = "tag-item";
+            productSpan.textContent = product;
+            productsContent.appendChild(productSpan);
+        });
+        productsSection.appendChild(productsIcon);
+        productsSection.appendChild(productsContent);
+        bundleDetails.appendChild(productsSection);
 
         const statusSection = document.createElement("div");
         statusSection.className = "info-section status-section";
@@ -61,12 +67,71 @@ function renderReservations(reservations) {
         statusIcon.className = "info-icon";
         const statusText = document.createElement("div");
         statusText.className = "info-text";
-        statusText.textContent = `Status: ${reservation.status}`;
+        statusText.textContent = `Status: ${bundle.active ? "Available" : "Unavailable"}`;
         statusSection.appendChild(statusIcon);
         statusSection.appendChild(statusText);
-        detailsDiv.appendChild(statusSection);
+        bundleDetails.appendChild(statusSection);
 
-        card.appendChild(detailsDiv);
+        card.appendChild(bundleDetails);
+
+        // Reservations details
+        if (bundle.reservations && bundle.reservations.length > 0) {
+            const reservationsList = document.createElement("div");
+            reservationsList.className = "reservations-list";
+
+            bundle.reservations.forEach((reservation) => {
+                const reservationItem = document.createElement("div");
+                reservationItem.className = "reservation-item";
+
+                const idSection = document.createElement("div");
+                idSection.className = "info-section id-section";
+                const idIcon = document.createElement("div");
+                idIcon.className = "info-icon";
+                const idText = document.createElement("div");
+                idText.className = "info-text";
+                idText.textContent = `ID: ${reservation.userId || 'N/A'}`;
+                idSection.appendChild(idIcon);
+                idSection.appendChild(idText);
+                reservationItem.appendChild(idSection);
+
+                const dateSection = document.createElement("div");
+                dateSection.className = "info-section date-section";
+                const dateIcon = document.createElement("div");
+                dateIcon.className = "info-icon";
+                const dateText = document.createElement("div");
+                dateText.className = "info-text";
+                const [year, month, day] = reservation.reservationDate;
+                dateText.textContent = `Date: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                dateSection.appendChild(dateIcon);
+                dateSection.appendChild(dateText);
+                reservationItem.appendChild(dateSection);
+
+                const createdSection = document.createElement("div");
+                createdSection.className = "info-section created-section";
+                const createdIcon = document.createElement("div");
+                createdIcon.className = "info-icon";
+                const createdText = document.createElement("div");
+                createdText.className = "info-text";
+                const createdDate = new Date(reservation.createdAt * 1000); // Convert to milliseconds
+                createdText.textContent = `Created: ${createdDate.toLocaleString()}`;
+                createdSection.appendChild(createdIcon);
+                createdSection.appendChild(createdText);
+                reservationItem.appendChild(createdSection);
+
+                reservationsList.appendChild(reservationItem);
+            });
+
+            card.appendChild(reservationsList);
+        } else {
+            const noReservations = document.createElement("div");
+            noReservations.className = "info-section no-reservations";
+            const noReservationsText = document.createElement("div");
+            noReservationsText.className = "info-text";
+            noReservationsText.textContent = "No reservations for this bundle.";
+            noReservations.appendChild(noReservationsText);
+            card.appendChild(noReservations);
+        }
+
         reservationsContainer.appendChild(card);
     });
 }
@@ -110,8 +175,8 @@ async function fetchReservations() {
         }
 
         const data = await response.json();
-        const reservations = data['reservations'] || []; // Adjust based on your API response
-        renderReservations(reservations);
+        const bundles = data['bundles'] || []; // Use 'bundles' as per your API response
+        renderReservations(bundles);
 
         doneButton.textContent = "Done";
         doneButton.classList.remove("loading");

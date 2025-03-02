@@ -1,4 +1,3 @@
-const token = localStorage.getItem("userToken");
 const bundlesContainer = document.getElementById("bundlesContainer");
 const modal = document.getElementById("modal");
 const modalImage = document.getElementById("modal-image");
@@ -14,23 +13,25 @@ const okButton = document.getElementById("okButton");
 const closeDateButton = document.getElementById("closeDateButton");
 const closeModalBtn = document.getElementsByClassName("close")[0];
 let currentBundle = null;
+const base_url = 'http://localhost:8080/api/v1/customer/bundles'
+
 
 window.addEventListener("DOMContentLoaded", fetchBundles);
 
 // Close modal at any stage
-modal.addEventListener("click", function(event) {
+modal.addEventListener("click", function (event) {
     if (event.target === modal) {
         modal.style.display = "none";
         resetReservationState();
     }
 });
 
-closeModalBtn.onclick = function() {
+closeModalBtn.onclick = function () {
     modal.style.display = "none";
     resetReservationState();
 };
 
-closeDateButton.onclick = function() {
+closeDateButton.onclick = function () {
     dateSelection.style.display = "none";
     reserveButton.style.display = "block";
 };
@@ -180,7 +181,7 @@ async function reserveBundle(bundleId, date) {
             reservationDate: date
         };
 
-        const response = await fetch("http://localhost:8080/api/v1/reservations", {
+        const response = await fetch(base_url + "/reserve", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -262,7 +263,7 @@ async function fetchBundles() {
         if (sorting) query += `sorting=${sorting}`;
 
         // Fetch real data from the server
-        const response = await fetch(`http://localhost:8080/api/v1/customer/bundles${query}`, {
+        const response = await fetch(base_url + `${query}`, {
             headers: {
                 Authorization: "Bearer " + token,
             },

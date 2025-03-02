@@ -19,11 +19,11 @@
             <i class="fas fa-home"></i>
             Home
         </a>
-        <a href="#">
+        <a href="#" id="reservationsButton">
             <i class="fas fa-calendar-check"></i>
             Reservations
         </a>
-        <a href="#" onclick="alert('You have successfully logged out!'); window.location.href = '../logout/logout.html';">
+        <a href="#" onclick="alert('You have successfully logged out!'); window.location.href = '../../html/login/loginCustomer.html';">
             <i class="fas fa-sign-out-alt"></i>
             Log out
         </a>
@@ -31,67 +31,6 @@
 
     <!-- Reservations container -->
     <div class="reservations-container" id="reservationsContainer"></div>
-
-    <!-- Sidebar for Search and Sort -->
-    <div class="search-sort-sidebar">
-        <div class="search-box">
-            <div class="search-header">
-                <div>
-                    <img src="../../images/icons/search.png" alt="search icon">
-                </div>
-                <div style="margin: auto">
-                    <h3>Search</h3>
-                </div>
-            </div>
-            <div class="line">
-                <hr>
-            </div>
-            <label for="searchReservation">Reservation ID:</label>
-            <input type="text" id="searchReservation" placeholder="Reservation ID">
-            <label for="searchDate">Date:</label>
-            <input type="date" id="searchDate" placeholder="YYYY-MM-DD">
-            <label for="searchStatus">Status:</label>
-            <select name="searchStatus" id="searchStatus">
-                <option value="" selected>--Select--</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="pending">Pending</option>
-                <option value="cancelled">Cancelled</option>
-            </select>
-        </div>
-        <div class="sort-box">
-            <div class="sort-header">
-                <div>
-                    <img src="../../images/icons/sort.png" alt="sort icon">
-                </div>
-                <div style="margin: auto">
-                    <h3>Sort</h3>
-                </div>
-            </div>
-            <div class="line">
-                <hr>
-            </div>
-            <div class="sort-option">
-                <span>ID</span>
-                <button type="button" data-sort="ID_ASC" class="sort-button">↑</button>
-                <button type="button" data-sort="ID_DESC" class="sort-button">↓</button>
-            </div>
-            <div class="sort-option">
-                <span>Date</span>
-                <button type="button" data-sort="DATE_ASC" class="sort-button">↑</button>
-                <button type="button" data-sort="DATE_DESC" class="sort-button">↓</button>
-            </div>
-        </div>
-        <div class="reset-done-buttons">
-            <div class="button-area">
-                <img src="../../images/icons/trash.png" alt="reset/trash icon">
-                <button type="button" id="resetSearch">Reset</button>
-            </div>
-            <div class="button-area">
-                <img src="../../images/icons/done.png" alt="done icon">
-                <button type="button" id="doneButton">Done</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script src="../../js/reservations.js"></script>

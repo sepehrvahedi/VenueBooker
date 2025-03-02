@@ -1,16 +1,16 @@
-const token = localStorage.getItem("userToken");
 const reservationsContainer = document.getElementById("reservationsContainer");
-const doneButton = document.getElementById("doneButton");
-const resetSearch = document.getElementById("resetSearch");
-let sorting = "";
+const reservationsButton = document.getElementById("reservationsButton");
+const doneButton = document.getElementById("doneButton"); // Placeholder, will be removed if not used
 const base_url = 'http://localhost:8080/api/v1/customer/bundles';
 
 window.addEventListener("DOMContentLoaded", fetchReservations);
 
-// Close modal logic (none needed here, but kept for consistency)
-function closeModal() {
-    // No modal in this page, placeholder
-}
+// Trigger fetch when Reservations button is clicked
+reservationsButton.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevent default anchor behavior
+    fetchReservations();
+});
+
 
 function renderReservations(bundles) {
     reservationsContainer.innerHTML = "";
@@ -18,6 +18,12 @@ function renderReservations(bundles) {
     bundles.forEach((bundle) => {
         const card = document.createElement("div");
         card.className = "reservation-card";
+
+        // Use bundle imageUrl or fallback to no_image.png
+        const img = document.createElement("img");
+        img.src = bundle.imageUrl || "../../images/others/no_image.png";
+        img.alt = "Bundle Image";
+        card.appendChild(img);
 
         // Bundle details
         const bundleDetails = document.createElement("div");
@@ -29,7 +35,7 @@ function renderReservations(bundles) {
         nameIcon.className = "info-icon";
         const nameText = document.createElement("div");
         nameText.className = "info-text";
-        nameText.textContent = `Bundle: ${bundle.name}`;
+        nameText.textContent = bundle.name;
         nameSection.appendChild(nameIcon);
         nameSection.appendChild(nameText);
         bundleDetails.appendChild(nameSection);
@@ -40,7 +46,7 @@ function renderReservations(bundles) {
         priceIcon.className = "info-icon";
         const priceText = document.createElement("div");
         priceText.className = "info-text";
-        priceText.textContent = `Price: $${bundle.price}`;
+        priceText.textContent = `$${bundle.price}`;
         priceSection.appendChild(priceIcon);
         priceSection.appendChild(priceText);
         bundleDetails.appendChild(priceSection);
@@ -61,17 +67,6 @@ function renderReservations(bundles) {
         productsSection.appendChild(productsContent);
         bundleDetails.appendChild(productsSection);
 
-        const statusSection = document.createElement("div");
-        statusSection.className = "info-section status-section";
-        const statusIcon = document.createElement("div");
-        statusIcon.className = "info-icon";
-        const statusText = document.createElement("div");
-        statusText.className = "info-text";
-        statusText.textContent = `Status: ${bundle.active ? "Available" : "Unavailable"}`;
-        statusSection.appendChild(statusIcon);
-        statusSection.appendChild(statusText);
-        bundleDetails.appendChild(statusSection);
-
         card.appendChild(bundleDetails);
 
         // Reservations details
@@ -83,17 +78,6 @@ function renderReservations(bundles) {
                 const reservationItem = document.createElement("div");
                 reservationItem.className = "reservation-item";
 
-                const idSection = document.createElement("div");
-                idSection.className = "info-section id-section";
-                const idIcon = document.createElement("div");
-                idIcon.className = "info-icon";
-                const idText = document.createElement("div");
-                idText.className = "info-text";
-                idText.textContent = `ID: ${reservation.userId || 'N/A'}`;
-                idSection.appendChild(idIcon);
-                idSection.appendChild(idText);
-                reservationItem.appendChild(idSection);
-
                 const dateSection = document.createElement("div");
                 dateSection.className = "info-section date-section";
                 const dateIcon = document.createElement("div");
@@ -101,22 +85,10 @@ function renderReservations(bundles) {
                 const dateText = document.createElement("div");
                 dateText.className = "info-text";
                 const [year, month, day] = reservation.reservationDate;
-                dateText.textContent = `Date: ${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+                dateText.textContent = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
                 dateSection.appendChild(dateIcon);
                 dateSection.appendChild(dateText);
                 reservationItem.appendChild(dateSection);
-
-                const createdSection = document.createElement("div");
-                createdSection.className = "info-section created-section";
-                const createdIcon = document.createElement("div");
-                createdIcon.className = "info-icon";
-                const createdText = document.createElement("div");
-                createdText.className = "info-text";
-                const createdDate = new Date(reservation.createdAt * 1000); // Convert to milliseconds
-                createdText.textContent = `Created: ${createdDate.toLocaleString()}`;
-                createdSection.appendChild(createdIcon);
-                createdSection.appendChild(createdText);
-                reservationItem.appendChild(createdSection);
 
                 reservationsList.appendChild(reservationItem);
             });
@@ -148,29 +120,26 @@ async function fetchReservations() {
         const tokenPayload = JSON.parse(atob(token.split('.')[1]));
         document.getElementById('username').innerHTML = tokenPayload['user']['username'];
 
-        doneButton.textContent = "Loading...";
-        doneButton.classList.add("loading");
+        // Optional: Add a loading indicator if doneButton is intended to be used
+        if (doneButton) {
+            doneButton.textContent = "Loading...";
+            doneButton.classList.add("loading");
+        }
 
-        const searchReservation = document.getElementById("searchReservation").value;
-        const searchDate = document.getElementById("searchDate").value;
-        const searchStatus = document.getElementById("searchStatus").value;
-
-        let query = `/reservations?`;
-        if (searchReservation) query += `reservationId=${encodeURIComponent(searchReservation)}&`;
-        if (searchDate) query += `reservationDate=${encodeURIComponent(searchDate)}&`;
-        if (searchStatus) query += `status=${encodeURIComponent(searchStatus)}&`;
-        if (sorting) query += `sorting=${sorting}`;
-
-        const response = await fetch(base_url + `${query}`, {
+        const response = await fetch(base_url + `/reservations`, {
             headers: {
                 Authorization: "Bearer " + token,
             },
         });
 
         if (!response.ok) {
-            alert("Failed to fetch reservations");
-            doneButton.textContent = "Done";
-            doneButton.classList.remove("loading");
+            const errorData = await response.json(); // Capture error details
+            console.error("Fetch error:", errorData);
+            alert(`Failed to fetch reservations: ${errorData.message || response.statusText}`);
+            if (doneButton) {
+                doneButton.textContent = "Done";
+                doneButton.classList.remove("loading");
+            }
             return;
         }
 
@@ -178,32 +147,24 @@ async function fetchReservations() {
         const bundles = data['bundles'] || []; // Use 'bundles' as per your API response
         renderReservations(bundles);
 
-        doneButton.textContent = "Done";
-        doneButton.classList.remove("loading");
+        if (doneButton) {
+            doneButton.textContent = "Done";
+            doneButton.classList.remove("loading");
+        }
     } catch (error) {
-        console.error(error);
-        alert("Error fetching reservations");
-        doneButton.textContent = "Done";
-        doneButton.classList.remove("loading");
+        console.error("Error fetching reservations:", error);
+        alert("Error fetching reservations: Check console for details");
+        if (doneButton) {
+            doneButton.textContent = "Done";
+            doneButton.classList.remove("loading");
+        }
     }
 }
 
-resetSearch.addEventListener("click", () => {
-    document.getElementById("searchReservation").value = "";
-    document.getElementById("searchDate").value = "";
-    document.getElementById("searchStatus").value = "";
-    sorting = "";
-    document.querySelectorAll(".sort-button").forEach((btn) => btn.classList.remove("active"));
+window.addEventListener("DOMContentLoaded", fetchReservations);
+
+// Trigger fetch when Reservations button is clicked
+reservationsButton.addEventListener("click", (event) => {
+    event.preventDefault(); // Prevent default anchor behavior
     fetchReservations();
-});
-
-doneButton.addEventListener("click", fetchReservations);
-
-document.querySelectorAll(".sort-button").forEach((button) => {
-    button.addEventListener("click", () => {
-        document.querySelectorAll(".sort-button").forEach((btn) => btn.classList.remove("active"));
-        button.classList.add("active");
-        sorting = button.getAttribute("data-sort");
-        fetchReservations();
-    });
 });

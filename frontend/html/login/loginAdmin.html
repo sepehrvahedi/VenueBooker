@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal</title>
+    <link rel="stylesheet" href="../../css/loginCustomer.css">
+    <style>
+        /* Additional styles for admin login page */
+        :root {
+            --primary-color: #4a6fdc;
+            --secondary-color: #1e3a8a;
+            --accent-color: #8b5cf6;
+            --background-color: #f3f4f6;
+            --text-color: #1f2937;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: white;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .illustration {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            width: 80px;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 220, 0.2);
+        }
+
+        input.error {
+            border-color: var(--error-color);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        .login-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .login-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            animation: fadeIn 0.3s, fadeOut 0.3s 1.7s;
+        }
+
+        .shadow-modal {
+            display: none;
+            background-color: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+        }
+
+        .shadow-modal h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .shadow-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+        }
+
+        .admin-icon {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 2rem;
+            color: white;
+            opacity: 0.8;
+        }
+
+        .image-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 80%;
+        }
+
+        .admin-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Left Section: Login Form -->
+    <div class="login-form">
+        <img src="../../images/customer_login_page/home.png" alt="Logo" class="logo">
+        <h1>Admin<br>Portal</h1>
+        <form id="login-form">
+            <span class="error-message" id="login-error"></span>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Enter admin username" required>
+                <span class="error-message" id="username-error"></span>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter admin password" required>
+                <span class="error-message" id="password-error"></span>
+            </div>
+            <button type="submit" class="login-button">Login as Admin</button>
+        </form>
+    </div>
+
+    <!-- Right Section: Illustration -->
+    <div class="illustration">
+        <div class="admin-badge">Admin Access Only</div>
+        <div class="image-group">
+            <img src="../../images/customer_login_page/wedding_venue.png" alt="Admin Portal" class="wedding-venue">
+            <img src="../../images/customer_login_page/golden_ring.png" alt="Admin Symbol" class="golden-ring">
+        </div>
+    </div>
+</div>
+
+<!-- Shadow User Modal -->
+<div class="shadow-overlay" id="shadow-overlay"></div>
+<div class="shadow-modal" id="shadow-modal">
+    <h2>Shadow User Account</h2>
+    <form id="shadow-form">
+        <div class="input-group">
+            <label for="shadow-username">Username to Shadow</label>
+            <input type="text" id="shadow-username" name="shadow-username" placeholder="Enter username to shadow" required>
+            <span class="error-message" id="shadow-username-error"></span>
+        </div>
+        <button type="submit" class="login-button">Shadow User</button>
+    </form>
+</div>
+
+<script src="../../js/loginAdmin.js"></script>
+</body>
+</html>
+

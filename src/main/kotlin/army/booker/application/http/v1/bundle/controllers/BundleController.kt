@@ -34,10 +34,10 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/api/v1/bundles")
 @CrossOrigin(
-  origins = ["http://localhost:63342"],
+  origins = ["*"],
   allowedHeaders = ["*"],
   methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS],
-  allowCredentials = "true"
+  allowCredentials = "false"
 )
 class BundleController(
   private val logger: Logger,

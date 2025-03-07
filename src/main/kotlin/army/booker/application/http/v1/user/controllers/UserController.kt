@@ -19,10 +19,10 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/api/v1/user")
 @CrossOrigin(
-  origins = ["http://localhost:63342"],
+  origins = ["*"],
   allowedHeaders = ["*"],
   methods = [RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS],
-  allowCredentials = "true"
+  allowCredentials = "false"
 )
 class UserController(
   private val logger: Logger,
